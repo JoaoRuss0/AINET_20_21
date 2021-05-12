@@ -1,0 +1,574 @@
+/* GENERAL */
+
+html
+{
+    height: 100%;
+}
+
+body
+{
+    margin: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#template
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+#welcome, #catalog, #login, #user_list
+{
+    flex-grow: 1;
+}
+
+/* SCROLLBAR */
+
+/* Width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Background */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Rectangle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Rectangle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/*----------------------------------------------------------------*/
+
+/* MENU */
+
+#menu
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    height: 50px;
+    width: 100%;
+    padding: 10px 30px;
+    margin-bottom: 20px;
+
+    background-color: black;
+    color: whitesmoke;
+    position: sticky;
+    top: 0px;
+}
+
+#menu_items_right
+{
+    text-align: end;
+}
+
+#menu_items_left a, #menu_items_right a
+{
+    display: inline-block;
+    width: 80px;
+
+    text-decoration: none;
+    font-size: large;
+    color: white;
+}
+
+#menu_items_left a:hover, #menu_items_right a:hover
+{
+    color: grey;
+}
+
+.menu_selected
+{
+    color: grey !important;
+}
+
+/*----------------------------------------------------------------*/
+
+/* WELCOME PAGE */
+
+#welcome
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#welcome_link
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    font-size: large;
+    color:grey;
+}
+
+#welcome_link:hover
+{
+    color: darkgrey;
+}
+
+#arrow_right
+{
+    height: 40px;
+}
+
+/*----------------------------------------------------------------*/
+
+/* CATALOG PAGE*/
+
+#catalog
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* STAMP CARDS AND TABLE */
+
+#stamps_table
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+.stamp_card
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    width: 280px;
+    border: solid 2px black;
+    border-radius: 5px;
+
+    height: 400px;
+    margin: 10px;
+}
+
+.stamp_name
+{
+    font-size: large;
+}
+
+.stamp_image
+{
+    max-width: 240px;
+    max-height: 240px;
+}
+
+.stamp_description
+{
+    height: 60px;
+    overflow: auto;
+
+    margin: 0px;
+    padding: 10px;
+    border-top: 2px solid black;
+}
+
+.stamp_name
+{
+    margin: 10px;
+    text-align: center;
+}
+
+/*----------------------------------------------------------------*/
+
+/* FILTER FORM */
+
+.filter
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.filter_fieldset
+{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+
+    margin: 0px 10px;
+    border: 2.0px solid black;
+}
+
+.filter_form
+{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.filter_form_table
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.form_checkboxes
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.form_buttons
+{
+    font-size: 0;
+}
+
+.form_button
+{
+    margin-left: 10px;
+}
+
+.filter_search_result
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.filter_search_parameters
+{
+    margin: 0;
+}
+
+/*----------------------------------------------------------------*/
+
+/* REGISTER AND REGISTER PAGES*/
+
+#register, #login, #create
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.message
+{
+    margin: 0px;
+}
+
+.message_error
+{
+    margin: 5px !important;
+    padding: 5px;
+    color: red;
+    background-color: lightcoral;
+    border: solid 1.5px red;
+    border-radius: 5px;
+}
+
+.message_success
+{
+    margin: 5px !important;
+    padding: 5px;
+    color: green;
+    background-color: lightgreen;
+    border: solid 1.5px green;
+    border-radius: 5px;
+}
+
+/*----------------------------------------------------------------*/
+
+/* FORMA AS A TABLE*/
+
+.table_form
+{
+    display: table;
+}
+
+.table_form > div
+{
+    display: table-row;
+}
+
+.table_form label, .table_form input, .table_form select, .table_form textarea
+
+{
+    box-sizing: border-box;
+}
+
+.table_form label
+{
+    padding-right: 10px;
+    vertical-align: bottom;
+}
+
+.table_form input, .table_form select, .table_form textarea
+{
+    width: 100%;
+    height: 22px;
+}
+
+.table_form button
+{
+    float: right;
+}
+
+.table_form label, .table_form input, .table_form button, .table_form select, .table_form textarea, .table_form p
+{
+    display: table-cell;
+}
+
+.table_form label, .table_form input, .table_form button, .table_form select, .table_form textarea
+{
+    margin-top: 10px;
+}
+
+.form_error_message p
+{
+    padding-top: 4px;
+    font-size: 10px;
+    color: red;
+    max-width: 250px;
+}
+
+.form_error_message label
+{
+    height: 0;
+    margin: 0;
+}
+
+.table_form textarea
+{
+    resize: vertical;
+    min-height: 22px;
+    vertical-align: bottom;
+}
+
+/*----------------------------------*/
+
+.optional_field_indicator
+{
+    font-style: italic;
+    font-size: 10px;
+    color: grey;
+}
+
+/* Taken from https://www.w3schools.com/css/css_tooltip.asp#:~:text=A%20tooltip%20is%20often%20used,Bottom but altered */
+
+/* Tooltip container */
+.tooltip
+{
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltiptext
+{
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    top: 100%;
+    left:0;
+    padding: 5px;
+    border-radius: 6px;
+
+    /* Position the tooltip text*/
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext
+{
+    visibility: visible;
+}
+
+/* Tooltip text arrow */
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 12px;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+  }
+
+/*----------------------------------------------------------------*/
+
+/* USER LIST PAGE*/
+
+#user_list
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#list
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    box-sizing: border-box;
+    width: calc(100% - 20px);
+    margin: 10px;
+}
+
+.list_item
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.list_item > img
+{
+    border-radius: 10px;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.item_info
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+@media (max-width: 1000px)
+{
+    /* STAMPS FILTER*/
+
+    .filter
+    {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter_fieldset
+    {
+        display: flex;
+        flex-direction: column;
+
+        box-sizing: border-box;
+        width: 280px;
+        border: 2.0px solid black;
+    }
+
+    .filter_form
+    {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter_form_table
+    {
+        display: table;
+    }
+
+    .filter_form_table > div
+    {
+        display: table-row;
+    }
+
+    .filter_form_table label
+    {
+        display: table-cell;
+        padding-right: 20px;
+    }
+
+    .filter_form_table input, .filter_form_table select
+    {
+        display: table-cell;
+        right: 0;
+
+        box-sizing: border-box;
+        width: 100%;
+
+        height: 20px;
+    }
+
+    .filter_form_table input, .filter_form_table select, .filter_form_table label
+    {
+        margin-top: 10px;
+    }
+
+    .form_checkboxes
+    {
+        display: table-row;
+    }
+
+    .form_buttons
+    {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .form_button
+    {
+        margin-top: 10px;
+        margin-left: 0px;
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 600px)
+{
+    .list_item
+    {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .table_form > div
+    {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .table_form input, #register .table_form select, .table_form textarea
+    {
+        margin-top: 4px;
+    }
+
+    .form_error_message p
+    {
+        padding-top: 0px;
+        margin: 4px 0px;
+    }
+}
+
