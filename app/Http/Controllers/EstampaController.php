@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Stamp;
+use App\Models\Categoria;
+use App\Models\Estampa;
 use Illuminate\Http\Request;
-use App\Models\Category;
 
-class StampController extends Controller
+class EstampaController extends Controller
 {
     public function index()
     {
         return view('stamps.index')
             ->with("title","Catalog")
-            ->with("categories", Category::all()->sortBy('nome'))
-            ->with("stamps", Stamp::all());
+            ->with("categories", Categoria::all()->sortBy('nome'))
+            ->with("stamps", Estampa::all());
     }
 
     public function filter(Request $request)
     {
-        $stamp_querry = Stamp::query();
+        $stamp_querry = Estampa::query();
         $last_filter = [];
 
         if(!empty($request->categoria_id))
         {
             $stamp_querry = $stamp_querry->where('categoria_id', $request->categoria_id);
-            $last_filter["categoria"] = Category::find($request->categoria_id);
+            $last_filter["categoria"] = Categoria::find($request->categoria_id);
         }
 
         if(!empty($request->nome))
@@ -41,7 +41,7 @@ class StampController extends Controller
 
         return view('stamps.index')
             ->with("title","Catalog")
-            ->with("categories", Category::all()->sortBy('nome'))
+            ->with("categories", Categoria::all()->sortBy('nome'))
             ->with("stamps", $stamp_querry->get())
             ->with("last_filter", $last_filter);
     }

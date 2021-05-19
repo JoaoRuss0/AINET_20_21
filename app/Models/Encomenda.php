@@ -6,12 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Cliente extends Model
+class Encomenda extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-    public $incrementing = false;
-    public $timestamps = true;
+    protected $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -19,24 +18,25 @@ class Cliente extends Model
      * @var array
      */
     protected $fillable = [
+        'estado',
+        'cliente_id',
+        'data',
+        'preco_total',
+        'notas',
         'nif',
         'endereco',
         'tipo_pagamento',
         'ref_pagamento',
+        'recibo_url',
     ];
 
-    public function user()
+    public function tshirts()
     {
-        return $this->belongsTo(User::class, 'id', 'id');
+        return $this->hasMany(Tshirt::class)->withTrashed();
     }
 
-    public function estampas()
+    public function cliente()
     {
-        return $this->hasMany(Estampa::class)->withTrashed();
-    }
-
-    public function encomendas()
-    {
-        return $this->hasMany(Encomenda::class)->withTrashed();
+        return $this->belongsTo(Cliente::class);
     }
 }

@@ -28,10 +28,10 @@ class UserController extends Controller
 
     public function store(UserStoreRequest $request)
     {
+        DB::beginTransaction();
+
         try
         {
-            DB::beginTransaction();
-
             $user = new User();
             $user->fill($request->validated());
             $user->save();

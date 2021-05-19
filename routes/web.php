@@ -4,7 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\StampController;
+use App\Http\Controllers\EstampaController;
 use App\Http\Controllers\ClienteController;
 
 /*
@@ -52,9 +52,9 @@ Route::put('/clientes/{cliente}/update', [ClienteController::class, 'update'])->
 
 /* Stamps */
 
-Route::get('/stamps', [StampController::class, 'index'])->name('stamps.index');
+Route::get('/stamps', [EstampaController::class, 'index'])->name('stamps.index');
 
-Route::get('/stamps/filter', [StampController::class, 'filter'])->name('stamps.filter');
+Route::get('/stamps/filter', [EstampaController::class, 'filter'])->name('stamps.filter');
 
 
 /* Automatically created */

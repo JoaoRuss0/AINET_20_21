@@ -20,6 +20,8 @@ class ClienteController extends Controller
 
     public function store(ClienteStoreRequest $request)
     {
+        DB::beginTransaction();
+
         try
         {
             $validated = $request->validated();
@@ -29,7 +31,6 @@ class ClienteController extends Controller
                 $validated['ref_pagamento'] = $request->email;
             }
 
-            DB::beginTransaction();
 
             $user = new User();
             $user->fill($validated);
@@ -77,6 +78,8 @@ class ClienteController extends Controller
 
     public function update(ClienteUpdateRequest $request, Cliente $cliente)
     {
+        DB::beginTransaction();
+
         try
         {
             $validated = $request->validated();
@@ -95,7 +98,6 @@ class ClienteController extends Controller
                 $validated['ref_pagamento'] = $request->email;
             }
 
-            DB::beginTransaction();
 
             $cliente->user->fill($validated);
             $cliente->user->update();
