@@ -11,12 +11,12 @@
             <form action="/users/filter/" class="filter_form">
                 <div class="filter_form_table">
                     <div>
-                        <label for="name">Name:</label>
-                        <input type="text" name="name" placeholder="Search Names" value="{{Request::input('name') ?? ''}}" >
+                        <label for="name"><strong>Name:</strong></label>
+                        <input type="text" name="name" placeholder="Search Names" value="{{ Request::input('name') ?? '' }}" >
                     </div>
 
                     <div>
-                        <label for="tipo">Type:</label>
+                        <label for="tipo"><strong>Type:</strong></label>
                         <select name="tipo">
                             <option value="">All</option>
                             <option value="A"
@@ -38,7 +38,7 @@
                     </div>
 
                     <div>
-                        <label for="bloqueado">Blocked:</label>
+                        <label for="bloqueado"><strong>Blocked:</strong></label>
                         <select name="bloqueado">
                             <option value=""></option>
                             <option

@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\StampController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StampController;
 use App\Http\Controllers\ClienteController;
 
 /*
@@ -22,11 +23,6 @@ Route::get('/', function () {
         ->with("title","Welcome to MagicShirts!");
 })->name('welcome');
 
-Route::get('/login', function () {
-    return view('login')
-        ->with("title","Login");
-})->name('login');
-
 
 /* Users */
 
@@ -38,6 +34,21 @@ Route::get('/users/create', [UserController::class, 'create'])->name('users.crea
 
 Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
 
+Route::put('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+
+Route::put('/users/{user}/update', [UserController::class, 'update'])->name('users.update');
+
+
+/* Clientes */
+
+Route::get('/clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
+
+Route::post('/clientes/store', [ClienteController::class, 'store'])->name('clientes.store');
+
+Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
+
+Route::put('/clientes/{cliente}/update', [ClienteController::class, 'update'])->name('clientes.update');
+
 
 /* Stamps */
 
@@ -46,8 +57,6 @@ Route::get('/stamps', [StampController::class, 'index'])->name('stamps.index');
 Route::get('/stamps/filter', [StampController::class, 'filter'])->name('stamps.filter');
 
 
-/* Clientes */
+/* Automatically created */
 
-Route::get('/clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
-
-Route::post('/clientes/store', [ClienteController::class, 'store'])->name('clientes.store');
+Auth::routes();

@@ -6,7 +6,7 @@
     <h1>Welcome to your favourite shirt shop!</h1>
 
     <a id="welcome_link" href="/stamps">
-        <img id="arrow_right" src="{{asset('img/arrow_right.gif')}}" alt="">
+        <img id="arrow_right" src="{{ asset('img/arrow_right.gif') }}" alt="">
         <div>Enter <strong>MagicShirts</strong></div>
     </a>
 </div>

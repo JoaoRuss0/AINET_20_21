@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
-use App\Http\Requests\UserStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserStoreRequest;
 
 class UserController extends Controller
 {
@@ -31,22 +30,24 @@ class UserController extends Controller
     {
         try
         {
-            $user = new User();
-            $user->fill($request->validated());
-
             DB::beginTransaction();
 
+            $user = new User();
+            $user->fill($request->validated());
             $user->save();
 
             if($request->hasFile('photo') != null)
             {
                 $photo_path = $request->file('photo')->store('public/fotos');
-                $old_name = explode("/", $photo_path);
-                $new_name =  $old_name[0] . "/" . $old_name[1] . "/" . $user->id . "_" . $old_name[2];
-                Storage::move($photo_path, $new_name);
-                $user->foto_url= $user->id . "_" . $old_name[2];
+                $user->foto_url= basename($photo_path);
+
+                //$old_name = explode("/", $photo_path);
+                //$new_name =  $old_name[0] . "/" . $old_name[1] . "/" . $user->id . "_" . $old_name[2];
+                //Storage::move($photo_path, $new_name);
+                //$user->foto_url= $user->id . "_" . $old_name[2];
             }
 
+            $user->password = Hash::make($user->password);
             $user->update();
 
             DB::commit();

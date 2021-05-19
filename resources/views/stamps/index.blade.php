@@ -12,17 +12,17 @@
 
                 <div class="filter_form_table">
                     <div>
-                        <label for="nome">Name:</label>
+                        <label for="nome"><strong>Name:</strong></label>
                         <input type="text" name="nome" placeholder="Search Names" value="{{$last_filter["nome"] ?? ""}}" >
                     </div>
 
                     <div>
-                        <label for="descricao">Description:</label>
+                        <label for="descricao"><strong>Description:</strong></label>
                         <input type="text" name="descricao" placeholder="Search Descriptions" value="{{$last_filter["descricao"]  ?? ""}}" >
                     </div>
 
                     <div>
-                        <label for="categoria_id">Category:</label>
+                        <label for="categoria_id"><strong>Category:</strong></label>
                         <select name="categoria_id">
                             <option value="">All</option>
                         @foreach ($categories as $category)

@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClienteStoreRequest extends FormRequest
+class ClienteUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +26,12 @@ class ClienteStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-ZÀ-ÿ ]{1,255}$/',
-            'email' => 'required|unique:users,email|email',
-            'password' => 'required|confirmed',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($this->id),
+            ],
+            'password' => 'nullable|confirmed',
             'photo' => 'nullable|image',
             'nif' => 'nullable|digits:9',
             'endereco' => 'nullable',
