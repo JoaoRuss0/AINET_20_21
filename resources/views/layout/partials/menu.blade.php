@@ -5,7 +5,7 @@
         @if (!empty($title) && $title == "Welcome to MagicShirts!") class="menu_selected" @endif
         >Welcome</a>
 
-        <a href="/stamps/"
+        <a href="{{ route("estampas.index") }}"
         @if (!empty($title) && $title == "Catalog") class="menu_selected" @endif
         >Catalog</a>
 
@@ -32,11 +32,11 @@
                 </div>
             </div>
         @else
-            <a href="/clientes/create"
+            <a href="{{ route("clientes.create") }}"
             @if (!empty($title) && $title == "Register now!") class="menu_selected" @endif
             >Register</a>
 
-            <a href="/login/"
+            <a href="{{ route("login") }}"
             @if (!empty($title) && $title == "Login") class="menu_selected" @endif
             >Login</a>
         @endguest

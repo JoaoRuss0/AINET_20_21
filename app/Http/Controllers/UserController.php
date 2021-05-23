@@ -14,16 +14,16 @@ class UserController extends Controller
     public function index()
     {
         return view('users.index')
-            ->with("title","Users")
-            ->with("users", User::all()
+            ->with('title',"Users")
+            ->with('users', User::all()
+                ->sortBy('name')
                 ->sortBy('bloqueado')
-                ->sortBy('tipo')
-                ->sortBy('name'));
+                ->sortBy('tipo'));
     }
 
     public function create()
     {
-        return view('users.create')->with("title","Create User");
+        return view('users.create')->with('title',"Create User");
     }
 
     public function store(UserStoreRequest $request)
@@ -38,7 +38,7 @@ class UserController extends Controller
 
             if($request->hasFile('photo') != null)
             {
-                $photo_path = $request->file('photo')->store('public/fotos');
+                $photo_path = $request->file('photo')->store("public/fotos");
                 $user->foto_url= basename($photo_path);
 
                 //$old_name = explode("/", $photo_path);
@@ -71,31 +71,49 @@ class UserController extends Controller
     {
         $user_querry = User::query();
         $last_filter = [];
+        $NO_PARAMETERS = TRUE;
 
         if(!empty($request->name))
         {
             $user_querry = $user_querry->where('name', 'LIKE', "%$request->name%");
             $last_filter['name'] = $request['name'];
+            $NO_PARAMETERS = FALSE;
         }
 
         if(!empty($request->tipo))
         {
             $user_querry = $user_querry->where('tipo', "$request->tipo");
             $last_filter['tipo'] = $request['tipo'];
+            $NO_PARAMETERS = FALSE;
         }
 
         if(!empty($request->bloqueado))
         {
             $user_querry = $user_querry->where('bloqueado', ($request->bloqueado == "Yes") ? 1 : 0);
             $last_filter['bloqueado'] = $request['bloqueado'];
+            $NO_PARAMETERS = FALSE;
+        }
+
+        if(!$NO_PARAMETERS)
+        {
+            $query_result = $user_querry->get();
+            $last_filter['querry_count'] = $query_result->count();
+
+            return view('users.index')
+            ->with('title', "Users")
+            ->with('last_filter', $last_filter)
+            ->with('users', $query_result
+                ->sortBy('name')
+                ->sortBy('bloqueado')
+                ->sortBy('tipo'));
         }
 
         return view('users.index')
-            ->with('title', 'Users')
+            ->with('title', "Users")
             ->with('last_filter', $last_filter)
-            ->with('users', $user_querry->get()
+            ->with('users', User::all()
+                ->sortBy('name')
                 ->sortBy('bloqueado')
-                ->sortBy('tipo')
-                ->sortBy('name'));
+                ->sortBy('tipo'));
     }
 }

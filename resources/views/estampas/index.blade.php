@@ -8,7 +8,7 @@
     <div class="filter">
         <fieldset class="filter_fieldset">
             <legend>Filter</legend>
-            <form action="/stamps/filter/" class="filter_form">
+            <form action="{{ route('estampas.filter') }}" class="filter_form">
 
                 <div class="filter_form_table">
                     <div>
@@ -37,37 +37,42 @@
                 </div>
 
                 <div class="form_buttons">
-                    <button type="reset" class="form_button clear_button">Clear</button>
-                    <button type="submit" class="form_button">Filter</button>
+                    <button type="reset" class="form_button button_red clear_button">Clear</button>
+                    <button type="submit" class="form_button button_green">Filter</button>
                 </div>
 
             </form>
 
-            <form action="/stamps/">
-                <button type="submit" class="form_button">All</button>
+            <form action="{{ route('estampas.index') }}">
+                <button type="submit" class="form_button button_black">All</button>
             </form>
         </fieldset>
     </div>
 
 @if (isset($last_filter))
-    <div class="filter_search_result">
-        <p><strong>Search results for:</strong></p>
-        <div>
-            <p class="filter_search_parameters">
-            @if (isset($last_filter["categoria"]))
-                <strong>Category: </strong>{{$last_filter["categoria"]->nome}}
-            @endif
+    @if (!empty($last_filter))
+        <div class="filter_search_result">
+            <p><strong>Found {{ $last_filter["querry_count"] }} results for:</strong></p>
+            <div class="filter_search_parameters">
+                <p class="filter_search_parameters">
+                @if (isset($last_filter["categoria"]))
+                    <p><strong>Category: </strong>{{ $last_filter["categoria"]->nome }}</p>
+                @endif
 
-            @if (!empty($last_filter["nome"]))
-                <strong>Name: </strong>"{{$last_filter["nome"]}}"
-            @endif
+                @if (!empty($last_filter["nome"]))
+                    <p><strong>Name: </strong>"{{ (strlen($last_filter["nome"]) > 30) ? substr($last_filter["nome"], 0, 30) . "..." : $last_filter["nome"] }}"</p>
+                @endif
 
-            @if (!empty($last_filter["descricao"]))
-                <strong>Description:</strong> "{{$last_filter["descricao"]}}"
-            @endif
-            </p>
+                @if (!empty($last_filter["descricao"]))
+                    <p><strong>Description: </strong>"{{ (strlen($last_filter["descricao"]) > 30) ? substr($last_filter["descricao"], 0, 30) . "..." : $last_filter["descricao"] }}"</p>
+                @endif
+            </div>
         </div>
-    </div>
+    @else
+        <div class="filter_search_result">
+            <p><strong>No search parameters, showing everything.</strong></p>
+        </div>
+    @endif
 @endif
 
     <div id="stamps_table">
@@ -75,7 +80,7 @@
         <div class="stamp_card">
             <p class="stamp_name"><strong>{{$stamp->nome}}</strong></p>
 
-            <img class="stamp_image" loading="lazy" src="{{asset("storage/estampas/$stamp->imagem_url")}}" alt="No stamp logo!">
+            <img class="stamp_image" src="{{ asset("storage/estampas/$stamp->imagem_url") }}" loading="lazy" alt="No stamp logo!">
 
             <p class="stamp_description">
                 {{$stamp->descricao}}

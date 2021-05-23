@@ -8,7 +8,7 @@
     <div class="filter">
         <fieldset class="filter_fieldset">
             <legend>Filter</legend>
-            <form action="/users/filter/" class="filter_form">
+            <form action="{{ route('users.filter') }}" class="filter_form">
                 <div class="filter_form_table">
                     <div>
                         <label for="name"><strong>Name:</strong></label>
@@ -55,23 +55,65 @@
                     </div>
                 </div>
 
-                <div id="form_buttons">
-                    <button type="reset" class="form_button clear_button">Clear</button>
-                    <button type="submit" class="form_button">Filter</button>
+                <div class="form_buttons">
+                    <button type="reset" class="form_button button_red clear_button">Clear</button>
+                    <button type="submit" class="form_button button_green">Filter</button>
                 </div>
 
             </form>
 
-            <form action="/users/">
-                <button type="submit" class="form_button">All</button>
+            <form action="{{ route('users.index') }}">
+                <button type="submit" class="form_button button_black">All</button>
             </form>
         </fieldset>
     </div>
 
+@if (isset($last_filter))
+    @if (!empty($last_filter))
+        <div class="filter_search_result">
+            <p><strong>Found {{ $last_filter["querry_count"] }} results for:</strong></p>
+            <div class="filter_search_parameters">
+                @if (isset($last_filter["tipo"]))
+                    <p><strong>Type: </strong>
+                    @switch($last_filter["tipo"])
+                        @case("A")
+                            Admin
+                            @break
+                        @case("C")
+                            Client
+                            @break
+                        @case("F")
+                            Worker
+                            @break
+                    @endswitch
+                    </p>
+                @endif
+
+                @if (!empty($last_filter["name"]))
+                    <p><strong>Name: </strong>"{{ (strlen($last_filter["name"]) > 30) ? substr($last_filter["name"], 0, 30) . "..." : $last_filter["name"] }}"</p>
+                @endif
+
+                @if (!empty($last_filter["bloqueado"]))
+                    <p><strong>Bocked: </strong>{{$last_filter["bloqueado"]}}</p>
+                @endif
+            </div>
+        </div>
+    @else
+        <div class="filter_search_result">
+            <p><strong>No search parameters, showing everything.</strong></p>
+        </div>
+    @endif
+@endif
+
     <div id="list">
     @foreach ($users as $user)
         <div class="list_item">
-            <img src="{{asset('storage/fotos/' . $user->foto_url)}}" alt="No user image.">
+        <!-- Check if user has a photo or not -->
+        @if ($user->foto_url)
+            <img class="item_photo" src="{{ asset('storage/fotos/' . $user->foto_url) }}" loading="lazy" alt="No user image.">
+        @else
+            <img class="item_photo" src="" loading="lazy" alt="No user image.">
+        @endif
             <div class="item_info">
                 <p><strong>Name: </strong>{{$user->name}}</p>
                 <p><strong>Email: </strong>{{$user->email}}</p>
@@ -96,6 +138,12 @@
                     No
                 @endif
                 </p>
+            </div>
+            <div class="item_buttons">
+            @if ($user->tipo != "C")
+                <button class="button_blue">Edit</button>
+            @endif
+                <button class="button_red">Block</button>
             </div>
         </div>
     @endforeach

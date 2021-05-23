@@ -1,7 +1,7 @@
 <div>
     <label for="user_name">
         <span class="tooltip">Name
-            <span class="tooltiptext">Can contain any accented upper/lower case letter and spaces with max size of 255 characters.</span>
+            <span class="tooltiptext_bottom">Can contain any accented upper/lower case letter and spaces with max size of 255 characters.</span>
         </span>
     </label>
     <input type="text" name="name" id="user_name" pattern="^[a-zA-Z \u00C0-\u00FF]{1,255}$" value="{{old('name', $user->name ?? '')}}" required>
@@ -14,7 +14,7 @@
 @enderror
 <div>
     <label for="user_email">
-        <span class="tooltip">Email <span class="tooltiptext">Can contain any accented upper/lower case letter. Must be of this format **@**.** with max size of 255 characters.</span></span>
+        <span class="tooltip">Email <span class="tooltiptext_bottom">Can contain any accented upper/lower case letter. Must be of this format **@**.** with max size of 255 characters.</span></span>
     </label>
     <input type="email" name="email" id="user_email" value="{{old('email', $user->email ?? '')}}" required >
 </div>

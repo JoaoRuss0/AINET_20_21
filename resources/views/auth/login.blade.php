@@ -32,14 +32,14 @@
 
         @if (Route::has('password.request'))
         <div>
-            <label></label>
+            <label class="empty_label"></label>
             <p class="form_password_reset"><a href="{{ route('password.request') }}"> Forgot Your Password </a></p>
         </div>
         @endif
 
         <div>
-            <label></label>
-            <button type="submit">Sign In</button>
+            <label class="empty_label"></label>
+            <button type="submit" class="button_black">Sign In</button>
         </div>
     </form>
 </div>

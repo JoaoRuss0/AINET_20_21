@@ -32,7 +32,7 @@ class ClienteUpdateRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($this->id),
             ],
             'password' => 'nullable|confirmed',
-            'photo' => 'nullable|image',
+            'photo' => 'nullable|image|max:8192',
             'nif' => 'nullable|digits:9',
             'endereco' => 'nullable',
             'tipo_pagamento' => 'nullable|in:VISA,MC,PAYPAL',

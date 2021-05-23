@@ -1,6 +1,6 @@
 <div>
     <label for="user_password">
-        <span class="tooltip">New Password <span class="tooltiptext">Max size of 255 characters.</span></span>
+        <span class="tooltip">New Password <span class="tooltiptext_bottom">Max size of 255 characters.</span></span>
     </label>
     <input type="password" name="password" id="user_password">
 </div>

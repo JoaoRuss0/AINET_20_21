@@ -17,7 +17,7 @@
             @include('users.partials.create-edit-admin')
             <div>
                 <label></label>
-                <button type="submit">Submit</button>
+                <button type="submit" class="button_green">Create</button>
             </div>
         </div>
     </form>

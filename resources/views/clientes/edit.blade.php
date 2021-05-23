@@ -20,7 +20,7 @@
 
             <div>
                 <label></label>
-                <button type="submit">Update</button>
+                <button type="submit" class="button_blue">Update</button>
             </div>
         </div>
     </form>

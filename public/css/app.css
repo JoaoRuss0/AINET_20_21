@@ -72,7 +72,7 @@ body
     justify-content: space-between;
 
     box-sizing: border-box;
-    height: 60px;
+    min-height: 60px;
     width: 100%;
     padding: 10px 30px;
 
@@ -81,28 +81,29 @@ body
     color: whitesmoke;
     position: sticky;
     top: 0px;
+    z-index: 1;
 }
 
-#menu_items_right
+#menu_items_right, #menu_items_left
 {
-    text-align: end;
+    display: flex;
+    flex-direction: row;
 }
 
 #menu_items_left a
 {
-    padding-right: 10px;
+    padding: 5px 20px 5px 0px;
 }
 
 #menu_items_right a
 {
-    padding-left: 10px;
+    padding: 5px 0px 5px 20px;
 }
 
 #menu_items_left a, #menu_items_right a
 {
     display: inline-block;
     box-sizing: border-box;
-    width: 80px;
 
     text-decoration: none;
     font-size: large;
@@ -164,7 +165,7 @@ body
     fill:white;
     padding-left: 5px;
     height: 14px;
-    vertical-align: -1px;
+    vertical-align: -2px;
 }
 
 /*----------------------------------------------------------------*/
@@ -181,6 +182,11 @@ body
 
     /*To center welcome message relative to the whole page*/
     margin-bottom: 60px;
+}
+
+#welcome h1
+{
+    margin: 20px
 }
 
 #welcome_link
@@ -315,10 +321,24 @@ body
     flex-grow: 1;
 }
 
+.filter_form_table input, .filter_form_table select
+{
+    height: 25px;
+    box-sizing: border-box;
+}
+
 .form_checkboxes
 {
     display: flex;
     flex-direction: row;
+}
+
+button
+{
+    color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    height: 25px;
 }
 
 .form_buttons
@@ -331,24 +351,68 @@ body
     margin-left: 10px;
 }
 
+.button_black
+{
+    background-color: rgb(30, 30, 30);
+}
+
+.button_black:hover
+{
+    background-color: rgb(230, 230, 230);
+    color: black;
+}
+
+.button_red
+{
+    background-color: red;
+}
+
+.button_red:hover
+{
+    background-color: lightcoral;
+}
+
+.button_blue
+{
+    background-color: blue;
+}
+
+.button_blue:hover
+{
+    background-color: lightskyblue;
+}
+
+.button_green
+{
+    background-color: green;
+}
+
+.button_green:hover
+{
+    background-color: lightgreen;
+}
+
 .filter_search_result
 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 20px;
+    padding: 10px 0px;
+    text-align: center;
 }
 
 .filter_search_parameters
 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter_search_parameters p
+{
     margin: 0;
 }
 
-.filter_form_table input, .filter_form_table select, .form_button
-{
-    height: 25px;
-    box-sizing: border-box;
-}
 /*----------------------------------------------------------------*/
 
 #create_cliente, #edit_cliente, #create_user, #login
@@ -457,6 +521,11 @@ body
     vertical-align: bottom;
 }
 
+.table_form button[type="submit"]
+{
+    margin: 10px 0px;
+}
+
 #login .table_form input
 {
     width: 200px;
@@ -486,15 +555,32 @@ body
     border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
 }
 
-/* Tooltip text */
-.tooltiptext
+/* Tooltip texts */
+.tooltiptext_bottom
 {
     visibility: hidden;
     width: 200px;
     background-color: black;
     color: #fff;
     text-align: center;
-    top: 100%;
+    top: 140%;
+    left:0;
+    padding: 5px;
+    border-radius: 6px;
+
+    /* Position the tooltip text*/
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltiptext_top
+{
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    bottom: 140%;
     left:0;
     padding: 5px;
     border-radius: 6px;
@@ -505,22 +591,33 @@ body
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext
+.tooltip:hover .tooltiptext_bottom,.tooltip:hover .tooltiptext_top
 {
     visibility: visible;
 }
 
 /* Tooltip text arrow */
-.tooltip .tooltiptext::after {
+.tooltip .tooltiptext_bottom::after {
     content: " ";
     position: absolute;
     bottom: 100%;  /* At the top of the tooltip */
-    left: 12px;
+    left: 15px;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
     border-color: transparent transparent black transparent;
-  }
+}
+
+.tooltip .tooltiptext_top::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 15px;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
 
 /*----------------------------------------------------------------*/
 
@@ -537,7 +634,6 @@ body
 {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
 
     box-sizing: border-box;
     width: calc(100% - 20px);
@@ -567,6 +663,7 @@ body
     max-width: 150px;
     max-height: 150px;
     box-shadow: 5px 5px 5px grey;
+    margin: 20px;
 }
 
 .item_info
@@ -574,7 +671,6 @@ body
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding-left: 20px;
 }
 
 @media (max-width: 1000px)
@@ -664,6 +760,28 @@ body
         flex-direction: column;
         align-items: center;
         width: 280px;
+        padding: 0px;
+    }
+
+    .item_info
+    {
+        padding: 0px 20px 20px 20px;
+    }
+
+    .item_info p
+    {
+        margin: 5px 0px;
+    }
+
+    .item_buttons
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        box-sizing: border-box;
+        border-top: 2px solid black;
+        width: 100%;
+        padding: 10px;
     }
 
     .table_form > div
@@ -677,10 +795,45 @@ body
         margin-top: 4px;
     }
 
+    .table_form .empty_label
+    {
+        margin: 0px;
+    }
+
+    .table_form .form_password_reset
+    {
+        padding: 0px;
+        text-align: center;
+        margin-top: 8px;
+    }
+
     .form_error_message p
     {
         padding-top: 0px;
         margin: 4px 0px;
+    }
+
+    .filter_search_result
+    {
+        max-width: 280px;
+    }
+}
+
+@media (max-width: 500px)
+{
+    #menu_items_left a, #menu_items_right a
+    {
+        padding: 5px 0px;
+    }
+
+    #menu_items_right, #menu_items_left
+    {
+        flex-direction: column;
+    }
+
+    #menu_items_right
+    {
+        align-items: flex-end;
     }
 }
 

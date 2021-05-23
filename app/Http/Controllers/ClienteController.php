@@ -15,7 +15,7 @@ class ClienteController extends Controller
 {
     public function create()
     {
-        return view('clientes.create')->with("title","Register now!");
+        return view('clientes.create')->with('title',"Register now!");
     }
 
     public function store(ClienteStoreRequest $request)
@@ -26,7 +26,7 @@ class ClienteController extends Controller
         {
             $validated = $request->validated();
 
-            if($request->tipo_pagamento == 'PAYPAL')
+            if($request->tipo_pagamento == "PAYPAL")
             {
                 $validated['ref_pagamento'] = $request->email;
             }
@@ -43,7 +43,7 @@ class ClienteController extends Controller
 
             if($request->hasFile('photo') != null)
             {
-                $photo_path = $request->file('photo')->store('public/fotos');
+                $photo_path = $request->file('photo')->store("public/fotos");
                 $user->foto_url= basename($photo_path);
             }
 
@@ -71,7 +71,7 @@ class ClienteController extends Controller
     public function edit(Cliente $cliente)
     {
         return view('clientes.edit')
-            ->with('title', 'Edit account')
+            ->with('title', "Edit account")
             ->with('cliente', $cliente)
             ->with('user', $cliente->user);
     }
@@ -107,7 +107,7 @@ class ClienteController extends Controller
 
             if($request->hasFile('photo') != null)
             {
-                Storage::delete('public/fotos/' . $cliente->user->foto_url);
+                Storage::delete("public/fotos/" . $cliente->user->foto_url);
                 $photo_path = $request->file('photo')->store('public/fotos');
                 $cliente->user->foto_url= basename($photo_path);
             }

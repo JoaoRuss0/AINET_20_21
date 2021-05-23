@@ -17,7 +17,7 @@
             @include('clientes.partials.create-edit')
             <div>
                 <label></label>
-                <button type="submit">Submit</button>
+                <button type="submit" class="button_green">Register</button>
             </div>
         </div>
     </form>

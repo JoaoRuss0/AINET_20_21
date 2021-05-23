@@ -1,7 +1,7 @@
 <div>
     <label for="client_nif">
         <span class="tooltip">NIF
-            <span class="tooltiptext">A sequence of 9 digits.</span>
+            <span class="tooltiptext_bottom">A sequence of 9 digits.</span>
         </span>
         <span class="optional_field_indicator"> - Optional</span>
     </label>
@@ -46,7 +46,7 @@
 <div>
     <label for="client_payment_ref">
         <span class="tooltip">Payment Reference
-            <span class="tooltiptext">A sequence of 16 digits if Master Card or Visa were selected.</span>
+            <span class="tooltiptext_top">A sequence of 16 digits if Master Card or Visa were selected.</span>
         </span>
         <span class="optional_field_indicator"> - Optional</span>
     </label>

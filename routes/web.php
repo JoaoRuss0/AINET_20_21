@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
@@ -50,11 +49,11 @@ Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name
 Route::put('/clientes/{cliente}/update', [ClienteController::class, 'update'])->name('clientes.update');
 
 
-/* Stamps */
+/* Estampas */
 
-Route::get('/stamps', [EstampaController::class, 'index'])->name('stamps.index');
+Route::get('/estampas', [EstampaController::class, 'index'])->name('estampas.index');
 
-Route::get('/stamps/filter', [EstampaController::class, 'filter'])->name('stamps.filter');
+Route::get('/estampas/filter', [EstampaController::class, 'filter'])->name('estampas.filter');
 
 
 /* Automatically created */
