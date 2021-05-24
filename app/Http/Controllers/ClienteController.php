@@ -31,7 +31,6 @@ class ClienteController extends Controller
                 $validated['ref_pagamento'] = $request->email;
             }
 
-
             $user = new User();
             $user->fill($validated);
             $user->save();
@@ -54,14 +53,17 @@ class ClienteController extends Controller
 
             DB::commit();
 
+            $user->sendEmailVerificationNotification();
+
             return redirect()->route('login')
-                ->with('message', "Client account created successfully!")
+                ->with('message', "Client account successfully created!")
                 ->with('message_type', "message_success");
         }
         catch(Exception $e)
         {
             DB::rollback();
 
+            // WithInput() is used in case request goes through validators without a problem but fails to create user
             return back()->withInput()
                 ->with('message', "Error creating client account.")
                 ->with('message_type', "message_error");
@@ -84,13 +86,13 @@ class ClienteController extends Controller
         {
             $validated = $request->validated();
 
-            if($request->password == NULL)
+            if($request->filled('password'))
             {
-                $validated['password'] = $cliente->user->password;
+                $validated['password'] = Hash::make($request->password);
             }
             else
             {
-                $validated['password'] = Hash::make($request->password);
+                $validated['password'] = $cliente->user->password;
             }
 
             if($request->tipo_pagamento == 'PAYPAL')
@@ -100,7 +102,6 @@ class ClienteController extends Controller
 
 
             $cliente->user->fill($validated);
-            $cliente->user->update();
 
             $cliente->fill($validated);
             $cliente->update();
@@ -116,16 +117,17 @@ class ClienteController extends Controller
 
             DB::commit();
 
-            return redirect()->route('login')
-                ->with('message', "Client account created successfully!")
+            return back()
+                ->with('message', "Client account updated successfully!")
                 ->with('message_type', "message_success");
         }
         catch(Exception $e)
         {
             DB::rollback();
 
-            return back()->withInput()
-                ->with('message', "Error creating client account.")
+            // WithInput() is used in case request goes through validators without a problem but fails to create user
+            return back()->wihtInput()
+                ->with('message', "Error updating client account.")
                 ->with('message_type', "message_error");
         }
     }

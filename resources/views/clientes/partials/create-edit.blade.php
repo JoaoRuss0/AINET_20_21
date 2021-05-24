@@ -7,12 +7,16 @@
     </label>
     <input type="text" name="nif" id="client_nif" pattern="^\d{9}$" value="{{old('nif', $cliente->nif ?? '')}}">
 </div>
+
 @error('nif')
-<div class="form_error_message">
-    <label></label>
-    <p><strong>{{$message}}</strong></p>
-</div>
+    @foreach ($errors->get('nif') as $message)
+        <div class="form_error_message">
+            <label></label>
+            <p><strong>{{$message}}</strong></p>
+        </div>
+    @endforeach
 @enderror
+
 <div>
     <label for="client_address">Address
         <span class="optional_field_indicator">- Optional</span>
@@ -20,12 +24,16 @@
     <!--<input type="text" name="endereco" id="client_address">-->
     <textarea id="client_address" name="endereco">{{old('endereco', $cliente->endereco ?? '')}}</textarea>
 </div>
+
 @error('endereco')
-<div class="form_error_message">
-    <label></label>
-    <p><strong>{{$message}}</strong></p>
-</div>
+    @foreach ($errors->get('endereco') as $message)
+        <div class="form_error_message">
+            <label></label>
+            <p><strong>{{$message}}</strong></p>
+        </div>
+    @endforeach
 @enderror
+
 <div>
     <label for="client_payment_type">Payment Type
         <span class="optional_field_indicator">- Optional</span>
@@ -37,12 +45,16 @@
         <option value="PAYPAL" {{old('tipo_pagamento', $cliente->tipo_pagamento ?? '') == 'PAYPAL' ? 'selected' : ''}}>Paypal</option>
     </select>
 </div>
+
 @error('tipo_pagamento')
-<div class="form_error_message">
-    <label></label>
-    <p><strong>{{$message}}</strong></p>
-</div>
+    @foreach ($errors->get('tipo_pagamento') as $message)
+        <div class="form_error_message">
+            <label></label>
+            <p><strong>{{$message}}</strong></p>
+        </div>
+    @endforeach
 @enderror
+
 <div>
     <label for="client_payment_ref">
         <span class="tooltip">Payment Reference
@@ -52,9 +64,12 @@
     </label>
     <input type="text" name="ref_pagamento" id="client_payment_ref" value="{{old('ref_pagamento', $cliente->ref_pagamento ?? '')}}" disabled>
 </div>
+
 @error('ref_pagamento')
-<div class="form_error_message">
-    <label></label>
-    <p><strong>{{$message}}</strong></p>
-</div>
+    @foreach ($errors->get('ref_pagamento') as $message)
+        <div class="form_error_message">
+            <label></label>
+            <p><strong>{{$message}}</strong></p>
+        </div>
+    @endforeach
 @enderror

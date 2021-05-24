@@ -2,11 +2,11 @@
     <div id="menu_items_left">
 
         <a href="/"
-        @if (!empty($title) && $title == "Welcome to MagicShirts!") class="menu_selected" @endif
+        @if (Route::currentRouteName() == "welcome") class="menu_selected" @endif
         >Welcome</a>
 
         <a href="{{ route("estampas.index") }}"
-        @if (!empty($title) && $title == "Catalog") class="menu_selected" @endif
+        @if (Route::currentRouteName() == "estampas.index" || Route::currentRouteName() == "estampas.filter") class="menu_selected" @endif
         >Catalog</a>
 
     </div>
@@ -26,18 +26,24 @@
 
 
                 <div id="menu_dropdown_items" class="invisible">
-                    <a href="{{ route('clientes.edit', ['cliente' => Auth::user()->id]) }}">Edit</a>
+                    <a href="
+                @if(Auth::user()->tipo == 'C')
+                    {{ route('clientes.edit', ['cliente' => Auth::user()->id]) }}
+                @else
+                    {{ route('users.edit', ['user' => Auth::user()->id]) }}
+                @endif
+                    ">Edit</a>
                     <a href="" id="logout_href">Logout</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="logout_menu_form"> @csrf </form>
                 </div>
             </div>
         @else
             <a href="{{ route("clientes.create") }}"
-            @if (!empty($title) && $title == "Register now!") class="menu_selected" @endif
+            @if (Route::currentRouteName() == "clientes.create") class="menu_selected" @endif
             >Register</a>
 
             <a href="{{ route("login") }}"
-            @if (!empty($title) && $title == "Login") class="menu_selected" @endif
+            @if (Route::currentRouteName() == "login") class="menu_selected" @endif
             >Login</a>
         @endguest
 

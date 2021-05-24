@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserStoreRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
@@ -23,7 +25,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create')->with('title',"Create User");
+        return view('users.create')
+            ->with('title',"Create User");
     }
 
     public function store(UserStoreRequest $request)
@@ -32,9 +35,9 @@ class UserController extends Controller
 
         try
         {
+            $validated = $request->validated();
             $user = new User();
-            $user->fill($request->validated());
-            $user->save();
+            $user->fill($validated);
 
             if($request->hasFile('photo') != null)
             {
@@ -48,12 +51,12 @@ class UserController extends Controller
             }
 
             $user->password = Hash::make($user->password);
-            $user->update();
+            $user->save();
 
             DB::commit();
 
-            return redirect()->route('login')
-                ->with('message', "Client account successfully created!")
+            return redirect()->route('users.index')
+                ->with('message', "User account successfully created!")
                 ->with('message_type', "message_success");
 
         }
@@ -61,8 +64,62 @@ class UserController extends Controller
         {
             DB::rollback();
 
+            // WithInput() is used in case request goes through validators without a problem but fails to create user
             return back()->withInput()
-                ->with('message', "Error creating client account.")
+                ->with('message', "Error creating user account.")
+                ->with('message_type', "message_error");
+        }
+    }
+
+    public function edit(User $user)
+    {
+        return view('users.edit')
+            ->with('title', "Edit user")
+            ->with('user', $user);
+    }
+
+    public function update(UserUpdateRequest $request, User $user)
+    {
+        DB::beginTransaction();
+
+        try
+        {
+            $validated = $request->validated();
+
+            if($request->filled('password'))
+            {
+                $validated['password'] = Hash::make($request->password);
+            }
+            else
+            {
+                $validated['password'] = $user->password;
+            }
+
+            $user->fill($validated);
+
+            if($request->hasFile('photo') != null)
+            {
+                Storage::delete("public/fotos/" . $user->foto_url);
+                $photo_path = $request->file('photo')->store("public/fotos");
+                $user->foto_url= basename($photo_path);
+            }
+
+            $user->update();
+
+            DB::commit();
+
+            return back()
+                ->with('message', "User account updated successfully!")
+                ->with('message_type', "message_success");
+
+        }
+        catch(Exception $e)
+        {
+            DB::rollback();
+
+            // WithInput() is used in case request goes through validators without a problem but fails to create user
+            return back()
+                ->with('message', "Error updating user account.")
                 ->with('message_type', "message_error");
         }
     }

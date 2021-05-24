@@ -1,5 +1,11 @@
 /* GENERAL */
 
+*
+{
+    font-family: monospace !important;
+    font-size: 14px;
+}
+
 html
 {
     height: 100%;
@@ -11,8 +17,6 @@ body
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    font-family: monospace !important;
-    font-size: 14px;
 }
 
 #template
@@ -26,6 +30,8 @@ body
 .title
 {
     font-size: 45px;
+    text-align: center;
+    margin: 30px;
 }
 
 #welcome, #catalog, #login, #user_list
@@ -188,7 +194,8 @@ body
 
 #welcome h1
 {
-    margin: 20px
+    margin: 20px;
+    font-size: 35px;
 }
 
 #welcome_link
@@ -264,7 +271,7 @@ body
 
 .stamp_description
 {
-    height: 60px;
+    height: 70px;
     overflow: auto;
 
     margin: 0px;
@@ -394,12 +401,22 @@ button
     background-color: lightgreen;
 }
 
+.href_button
+{
+    color: white;
+    border: 2px solid black;
+    vertical-align: middle;
+    padding: 2px 6px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
 .filter_search_result
 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 0px;
+    padding-top: 10px;
     text-align: center;
 }
 
@@ -417,7 +434,7 @@ button
 
 /*----------------------------------------------------------------*/
 
-#create_cliente, #edit_cliente, #create_user, #login
+#create_cliente, #edit_cliente, #edit_user, #create_user, #login
 {
     display: flex;
     flex-direction: column;
@@ -638,8 +655,7 @@ button
     flex-direction: column;
 
     box-sizing: border-box;
-    width: calc(100% - 20px);
-    margin: 10px;
+    width: 100%;
 }
 
 .list_item
@@ -654,7 +670,7 @@ button
     background-color: white;
     border: 2px solid black;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin: 10px;
     box-shadow: 5px 5px 5px grey;
     box-sizing: border-box;
 }
@@ -675,6 +691,22 @@ button
     flex-grow: 1;
 }
 
+.item_buttons
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.item_buttons button, .item_buttons a
+{
+    margin-left: 10px;
+}
+
+.add_user_div
+{
+    margin: 10px 0px;
+}
+
 @media (max-width: 1000px)
 {
     /* STAMPS FILTER*/
@@ -689,6 +721,7 @@ button
     {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
 
         box-sizing: border-box;
         width: 280px;
@@ -777,13 +810,16 @@ button
 
     .item_buttons
     {
-        display: flex;
-        flex-direction: row;
         justify-content: space-around;
         box-sizing: border-box;
         border-top: 2px solid black;
         width: 100%;
         padding: 10px;
+    }
+
+    .item_buttons button
+    {
+        margin-left: 0px;
     }
 
     .table_form > div

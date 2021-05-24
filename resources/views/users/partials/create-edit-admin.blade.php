@@ -5,12 +5,16 @@
         <option value="F">Worker</option>
     </select>
 </div>
+
 @error('tipo')
-<div class="form_error_message">
-    <label></label>
-    <p><strong>{{$message}}</strong></p>
-</div>
+    @foreach ($errors->get('tipo') as $message)
+        <div class="form_error_message">
+            <label></label>
+            <p><strong>{{$message}}</strong></p>
+        </div>
+    @endforeach
 @enderror
+
 <div>
     <label for="user_blocked">Blocked</label>
     <select type="text" name="bloqueado" id="user_blocked">
@@ -18,9 +22,12 @@
         <option value=1>Blocked</option>
     </select>
 </div>
+
 @error('bloqueado')
-<div class="form_error_message">
-    <label></label>
-    <p><strong>{{$message}}</strong></p>
-</div>
+    @foreach ($errors->get('bloqueado') as $message)
+        <div class="form_error_message">
+            <label></label>
+            <p><strong>{{$message}}</strong></p>
+        </div>
+    @endforeach
 @enderror

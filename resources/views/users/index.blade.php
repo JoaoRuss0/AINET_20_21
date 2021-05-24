@@ -5,6 +5,12 @@
 <div id="user_list">
     <h1 class="title">User List</h1>
 
+    <p class="message {{session('message_type')}}">{{session('message')}}</p>
+
+    <div class="add_user_div">
+        <a class="href_button button_green" href="{{ route('users.create') }}" >Add User</a>
+    </div>
+
     <div class="filter">
         <fieldset class="filter_fieldset">
             <legend>Filter</legend>
@@ -40,7 +46,7 @@
                     <div>
                         <label for="bloqueado"><strong>Blocked:</strong></label>
                         <select name="bloqueado">
-                            <option value=""></option>
+                            <option value="">Any</option>
                             <option
                         @if(!empty($last_filter['bloqueado']) && $last_filter['bloqueado'] == 'Yes')
                             selected
@@ -62,9 +68,7 @@
 
             </form>
 
-            <form action="{{ route('users.index') }}">
-                <button type="submit" class="form_button button_black">All</button>
-            </form>
+            <a class="form_button href_button button_black" href="{{ route('users.index') }}">All</a>
         </fieldset>
     </div>
 
@@ -100,7 +104,7 @@
         </div>
     @else
         <div class="filter_search_result">
-            <p><strong>No search parameters, showing everything.</strong></p>
+            <p><strong>Showing everything.</strong></p>
         </div>
     @endif
 @endif
@@ -141,9 +145,11 @@
             </div>
             <div class="item_buttons">
             @if ($user->tipo != "C")
-                <button class="button_blue">Edit</button>
+                <a href="{{ route('users.edit', ['user' => $user->id] ) }}" class="href_button button_blue">Edit</a>
             @endif
-                <button class="button_red">Block</button>
+                <form action="">
+                    <button class="button_red">Block</button>
+                </form>
             </div>
         </div>
     @endforeach

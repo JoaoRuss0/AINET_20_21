@@ -17,45 +17,53 @@ use App\Http\Controllers\ClienteController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome')
-        ->with("title","Welcome to MagicShirts!");
-})->name('welcome');
+/* Welcome */
+
+Route::view('/', 'welcome', ['title' => "Welcome to MagicShirts!"])->name('welcome');
 
 
-/* Users */
+Route::middleware(['auth', 'verified'])->group(function()
+{
+    Route::name('users.')->prefix('users')->group(function()
+    {
+        Route::get('/', [UserController::class, 'index'])->name('index');
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('filter', [UserController::class, 'filter'])->name('filter');
 
-Route::get('/users/filter', [UserController::class, 'filter'])->name('users.filter');
+        Route::get('create', [UserController::class, 'create'])->name('create');
 
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
 
-Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+        Route::get('{user}/edit', [UserController::class, 'edit'])->name('edit');
 
-Route::put('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-
-Route::put('/users/{user}/update', [UserController::class, 'update'])->name('users.update');
-
-
-/* Clientes */
-
-Route::get('/clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
-
-Route::post('/clientes/store', [ClienteController::class, 'store'])->name('clientes.store');
-
-Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
-
-Route::put('/clientes/{cliente}/update', [ClienteController::class, 'update'])->name('clientes.update');
+        Route::put('{user}', [UserController::class, 'update'])->name('update');
+    });
 
 
-/* Estampas */
+    Route::name('clientes.')->prefix('clientes')->group(function()
+    {
+        Route::get('{cliente}/edit', [ClienteController::class, 'edit'])->name('edit');
 
-Route::get('/estampas', [EstampaController::class, 'index'])->name('estampas.index');
+        Route::put('{cliente}', [ClienteController::class, 'update'])->name('update');
+    });
+});
 
-Route::get('/estampas/filter', [EstampaController::class, 'filter'])->name('estampas.filter');
+Route::name('clientes.')->prefix('clientes')->group(function()
+{
+    Route::get('create', [ClienteController::class, 'create'])->name('create');
+
+    Route::post('/', [ClienteController::class, 'store'])->name('store');
+});
+
+Route::name('estampas.')->prefix('estampas')->group(function()
+{
+    Route::get('/', [EstampaController::class, 'index'])->name('index');
+
+    Route::get('filter', [EstampaController::class, 'filter'])->name('filter');
+});
 
 
-/* Automatically created */
+/* Auth */
 
-Auth::routes();
+// Exclude register because register = clientes.create
+Auth::routes(['register' => false, 'verify' => true]);

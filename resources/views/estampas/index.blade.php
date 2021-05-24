@@ -43,9 +43,7 @@
 
             </form>
 
-            <form action="{{ route('estampas.index') }}">
-                <button type="submit" class="form_button button_black">All</button>
-            </form>
+            <a class="form_button href_button button_black" href="{{ route('estampas.index') }}">All</a>
         </fieldset>
     </div>
 
@@ -70,7 +68,7 @@
         </div>
     @else
         <div class="filter_search_result">
-            <p><strong>No search parameters, showing everything.</strong></p>
+            <p><strong>Showing everything.</strong></p>
         </div>
     @endif
 @endif

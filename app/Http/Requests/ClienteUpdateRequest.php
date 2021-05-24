@@ -36,7 +36,7 @@ class ClienteUpdateRequest extends FormRequest
             'nif' => 'nullable|digits:9',
             'endereco' => 'nullable',
             'tipo_pagamento' => 'nullable|in:VISA,MC,PAYPAL',
-            'ref_pagamento'=> 'nullable|required_if:tipo_pagamento,VISA,MC'
+            'ref_pagamento'=> 'nullable|required_if:tipo_pagamento,VISA,MC|digits:16'
         ];
     }
 }
