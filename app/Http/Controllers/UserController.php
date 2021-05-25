@@ -173,4 +173,22 @@ class UserController extends Controller
                 ->sortBy('bloqueado')
                 ->sortBy('tipo'));
     }
+
+    public function alterBlocked(User $user)
+    {
+        try
+        {
+            $user->update(['bloqueado' => !$user->bloqueado]);
+
+            return back()
+                ->with('message', "User #$user->id successfully " . ($user->bloqueado ? "blocked" : "unblocked") . "!")
+                ->with('message_type', "message_success");
+        }
+        catch(Exception $e)
+        {
+            return back()
+                ->with('message', "Failed to block user #$user->id.")
+                ->with('message_type', "message_error");
+        }
+    }
 }

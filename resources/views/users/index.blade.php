@@ -5,7 +5,7 @@
 <div id="user_list">
     <h1 class="title">User List</h1>
 
-    <p class="message {{session('message_type')}}">{{session('message')}}</p>
+    @include('layout.partials.return-message')
 
     <div class="add_user_div">
         <a class="href_button button_green" href="{{ route('users.create') }}" >Add User</a>
@@ -144,11 +144,24 @@
                 </p>
             </div>
             <div class="item_buttons">
-            @if ($user->tipo != "C")
+            @can ('update', $user)
                 <a href="{{ route('users.edit', ['user' => $user->id] ) }}" class="href_button button_blue">Edit</a>
-            @endif
-                <form action="">
-                    <button class="button_red">Block</button>
+            @endcan
+                <form action="{{ route('users.block', ['user' => $user->id]) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button
+                    @if ($user->bloqueado)
+                        class="button_green">Unblock
+                    @else
+                        class="button_red">Block
+                    @endif
+                    </button>
+                </form>
+                <form action="" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button class="button_grey">Delete</button>
                 </form>
             </div>
         </div>

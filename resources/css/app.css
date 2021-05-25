@@ -401,6 +401,16 @@ button
     background-color: lightgreen;
 }
 
+.button_grey
+{
+    background-color: grey;
+}
+
+.button_grey:hover
+{
+    background-color: lightgray;
+}
+
 .href_button
 {
     color: white;
@@ -675,11 +685,11 @@ button
     box-sizing: border-box;
 }
 
-.list_item > img
+.item_photo
 {
     border-radius: 10px;
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 128px;
+    max-height: 128px;
     box-shadow: 5px 5px 5px grey;
     margin: 20px;
 }

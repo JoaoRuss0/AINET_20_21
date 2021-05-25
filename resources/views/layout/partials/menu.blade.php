@@ -9,7 +9,14 @@
         @if (Route::currentRouteName() == "estampas.index" || Route::currentRouteName() == "estampas.filter") class="menu_selected" @endif
         >Catalog</a>
 
+        @can('viewAny', App\Models\User::class)
+            <a href="{{ route("users.index") }}"
+            @if (Route::currentRouteName() == "users.index" || Route::currentRouteName() == "users.filter" || Route::currentRouteName() == "users.edit") class="menu_selected" @endif
+            >Users</a>
+        @endcan
+
     </div>
+
     <div id="menu_items_right">
 
         @auth

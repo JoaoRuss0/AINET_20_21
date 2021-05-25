@@ -7,7 +7,7 @@
 @if($errors->any())
     <p class="message_error">Fields were not filled correctly.</p>
 @endif
-    <p class="message {{session('message_type')}}">{{session('message')}}</p>
+    @include('layout.partials.return-message')
     <form method="POST" action="{{route('users.update', ['user' => $user->id])}}" enctype="multipart/form-data">
         @csrf
         @method('PUT')

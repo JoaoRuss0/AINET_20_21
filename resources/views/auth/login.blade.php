@@ -4,7 +4,7 @@
 
 <div id="login">
     <h1 class="title">Login</h1>
-    <p class="{{session('message_type')}}">{{session('message')}}</p>
+    @include('layout.partials.return-message')
     <form action="{{route('login')}}" class="table_form" method="POST">
         @csrf
 
