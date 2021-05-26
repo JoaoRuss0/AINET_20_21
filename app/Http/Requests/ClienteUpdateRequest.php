@@ -31,7 +31,7 @@ class ClienteUpdateRequest extends FormRequest
                 'email',
                 Rule::unique('users', 'email')->ignore($this->id),
             ],
-            'password' => 'nullable|confirmed',
+            'password' => 'nullable|confirmed|min:8',
             'photo' => 'nullable|image|max:8192',
             'nif' => 'nullable|digits:9',
             'endereco' => 'nullable',

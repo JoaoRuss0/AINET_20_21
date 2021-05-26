@@ -119,34 +119,16 @@
             <img class="item_photo" src="" loading="lazy" alt="No user image.">
         @endif
             <div class="item_info">
-                <p><strong>Name: </strong>{{$user->name}}</p>
-                <p><strong>Email: </strong>{{$user->email}}</p>
-                <p><strong>Type: </strong>
-                @switch($user->tipo)
-                    @case('A')
-                            Administrador
-                        @break
-                    @case('C')
-                            Client
-                        @break
-                    @case('F')
-                            Worker
-                        @break
-                    @default No type assigned.
-                @endswitch
-                </p>
-                <p><strong>Blocked: </strong>
-                @if ($user->bloqueado)
-                    Yes
-                @else
-                    No
-                @endif
-                </p>
+                @include('users.partials.info')
             </div>
             <div class="item_buttons">
+            @can ('view', $user)
+                <a href="{{ route('users.show', ['user' => $user->id] ) }}" class="href_button button_black">View</a>
+            @endcan
             @can ('update', $user)
                 <a href="{{ route('users.edit', ['user' => $user->id] ) }}" class="href_button button_blue">Edit</a>
             @endcan
+            @can('block_destroy_type', $user)
                 <form action="{{ route('users.block', ['user' => $user->id]) }}" method="POST">
                     @csrf
                     @method('PUT')
@@ -158,11 +140,12 @@
                     @endif
                     </button>
                 </form>
-                <form action="" method="POST">
+                <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <button class="button_grey">Delete</button>
                 </form>
+            @endcan
             </div>
         </div>
     @endforeach

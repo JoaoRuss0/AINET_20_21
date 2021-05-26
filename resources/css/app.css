@@ -150,12 +150,13 @@ body
 
 #menu_dropdown_items
 {
-    width: 190px;
+    width: 170px;
     border-top: 0px;
     background-color: rgb(30, 30, 30);
     box-sizing: border-box;
     padding: 5px;
     padding-top: 15.5px;
+    right: 0px;
 
     position: absolute;
     z-index: 1;
@@ -444,7 +445,9 @@ button
 
 /*----------------------------------------------------------------*/
 
-#create_cliente, #edit_cliente, #edit_user, #create_user, #login
+/* PAGES */
+
+#create_cliente, #edit_cliente, #edit_user, #create_user, #login, #email_verify, #password_reset_email, #password_reset, #user_show
 {
     display: flex;
     flex-direction: column;
@@ -475,6 +478,12 @@ button
     background-color: lightgreen;
     border: solid 1.5px green;
     border-radius: 5px;
+}
+
+.email_sent
+{
+    margin:30px;
+    text-align: center;
 }
 
 /*----------------------------------------------------------------*/
@@ -555,12 +564,12 @@ button
     margin: 10px 0px;
 }
 
-#login .table_form input
+#login .table_form input, #password_reset_email .table_form input, #password_reset .table_form input
 {
     width: 200px;
 }
 
-#login .form_error_message p
+#login .form_error_message p, #password_reset_email .form_error_message p, #password_reset .form_error_message p
 {
     max-width: 200px;
 }
@@ -650,7 +659,7 @@ button
 
 /*----------------------------------------------------------------*/
 
-/* USER LIST PAGE*/
+/* USER LIST PAGE */
 
 #user_list
 {
@@ -685,12 +694,16 @@ button
     box-sizing: border-box;
 }
 
-.item_photo
+.item_photo, .profile_img img
 {
     border-radius: 10px;
     max-width: 128px;
     max-height: 128px;
     box-shadow: 5px 5px 5px grey;
+}
+
+.item_photo
+{
     margin: 20px;
 }
 
@@ -715,6 +728,28 @@ button
 .add_user_div
 {
     margin: 10px 0px;
+}
+
+/*----------------------------------------------------------------*/
+
+/* PROFILE */
+
+.profile
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.profile_img
+{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile a
+{
+    float: right;
+
 }
 
 @media (max-width: 1000px)
@@ -864,6 +899,29 @@ button
     .filter_search_result
     {
         max-width: 280px;
+    }
+
+    #email_verify > div
+    {
+        max-width: 250px;
+        text-align: center;
+    }
+
+    #email_verify .title
+    {
+        font-size: 35px;
+    }
+
+    .profile
+    {
+        margin: 30px;
+    }
+
+    .profile a
+    {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
     }
 }
 

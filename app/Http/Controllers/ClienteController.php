@@ -13,6 +13,14 @@ use App\Http\Requests\ClienteUpdateRequest;
 
 class ClienteController extends Controller
 {
+    public function show(Cliente $cliente)
+    {
+        return view('clientes.show')
+            ->with('title',"Users")
+            ->with('user', $cliente->user)
+            ->with('cliente', $cliente);
+    }
+
     public function create()
     {
         return view('clientes.create')->with('title',"Register now!");
@@ -128,6 +136,32 @@ class ClienteController extends Controller
             // WithInput() is used in case request goes through validators without a problem but fails to create user
             return back()->wihtInput()
                 ->with('message', "Error updating client account.")
+                ->with('message_type', "message_error");
+        }
+    }
+
+    public function destroy(Cliente $cliente)
+    {
+        DB::beginTransaction();
+
+        try
+        {
+            $old_id = $cliente->id;
+            $cliente->delete();
+            User::destroy($old_id);
+
+            DB::commit();
+
+            return back()
+                ->with('message', "User #$old_id successfully deleted!")
+                ->with('message_type', "message_success");
+        }
+        catch (Exception $e)
+        {
+            DB::rollBack();
+
+            return back()
+                ->with('message', "Failed to delete user #$old_id.")
                 ->with('message_type', "message_error");
         }
     }

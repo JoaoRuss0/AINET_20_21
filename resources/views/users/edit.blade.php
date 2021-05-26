@@ -14,6 +14,9 @@
         <div class="table_form">
             @include('users.partials.create-edit')
             @include('users.partials.create-edit-newpassword')
+            @can('block_destroy_type', $user)
+                @include('users.partials.create-edit-admin')
+            @endcan
             <input type="hidden" name="id" value="{{$user->id}}">
 
             <div>

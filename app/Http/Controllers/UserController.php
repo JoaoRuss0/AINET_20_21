@@ -6,6 +6,7 @@ use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Storage;
@@ -21,6 +22,13 @@ class UserController extends Controller
                 ->sortBy('name')
                 ->sortBy('bloqueado')
                 ->sortBy('tipo'));
+    }
+
+    public function show(User $user)
+    {
+        return view('users.show')
+            ->with('title',"Users")
+            ->with('user', $user);
     }
 
     public function create()
@@ -80,6 +88,14 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user)
     {
+        // Admin can't alter his own type or block himself
+        if(Auth::user()->id == $user->id && ($request->bloqueado != $user->bloqueado || $request->tipo != $user->tipo))
+        {
+            return back()
+                ->with('message', "Error updating user account.")
+                ->with('message_type', "message_error");
+        }
+
         DB::beginTransaction();
 
         try
@@ -109,7 +125,7 @@ class UserController extends Controller
             DB::commit();
 
             return back()
-                ->with('message', "User account updated successfully!")
+                ->with('message', "User account successfully updated!")
                 ->with('message_type', "message_success");
 
         }
@@ -187,7 +203,26 @@ class UserController extends Controller
         catch(Exception $e)
         {
             return back()
-                ->with('message', "Failed to block user #$user->id.")
+                ->with('message', "Failed to " . ($user->bloqueado ? "blocked" : "unblocked") . " user #$user->id.")
+                ->with('message_type', "message_error");
+        }
+    }
+
+    public function destroy(User $user)
+    {
+        try
+        {
+            $old_id = $user->id;
+            $user->delete();
+
+            return back()
+                ->with('message', "User #$old_id successfully deleted!")
+                ->with('message_type', "message_success");
+        }
+        catch (Exception $e)
+        {
+            return back()
+                ->with('message', "Failed to delete user #$old_id.")
                 ->with('message_type', "message_error");
         }
     }

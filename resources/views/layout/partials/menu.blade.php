@@ -33,13 +33,15 @@
 
 
                 <div id="menu_dropdown_items" class="invisible">
-                    <a href="
-                @if(Auth::user()->tipo == 'C')
-                    {{ route('clientes.edit', ['cliente' => Auth::user()->id]) }}
-                @else
-                    {{ route('users.edit', ['user' => Auth::user()->id]) }}
-                @endif
-                    ">Edit</a>
+
+                @can(['view', 'update'], Auth::user()->cliente)
+                    <a href="{{ route('clientes.show', ['cliente' => Auth::user()->id]) }}">Profile</a>
+                    <a href="{{ route('clientes.edit', ['cliente' => Auth::user()->id]) }}">Edit</a>
+                @elsecan(['view', 'update'], Auth::user())
+                    <a href="{{ route('users.show', ['user' => Auth::user()->id]) }}">Profile</a>
+                    <a href="{{ route('users.edit', ['user' => Auth::user()->id]) }}">Edit</a>
+                @endcan
+
                     <a href="" id="logout_href">Logout</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="logout_menu_form"> @csrf </form>
                 </div>

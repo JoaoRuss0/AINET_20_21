@@ -19,49 +19,55 @@ use App\Http\Controllers\ClienteController;
 
 /* Welcome */
 
-Route::view('/', 'welcome', ['title' => "Welcome to MagicShirts!"])->name('welcome');
+Route::view('/', 'welcome', ['title' => "Welcome to MagicShirts!"])                 ->name('welcome');
 
 
 Route::middleware(['auth', 'verified'])->group(function()
 {
     Route::name('users.')->prefix('users')->group(function()
     {
-        Route::get('/', [UserController::class, 'index'])->name('index')->middleware('can:viewAny,App\Models\User');
+        Route::get('/',                 [UserController::class, 'index'])           ->name('index')     ->middleware('can:viewAny,App\Models\User');
 
-        Route::get('filter', [UserController::class, 'filter'])->name('filter')->middleware('can:viewAny,App\Models\User');
+        Route::get('{user}/show',       [UserController::class, 'show'])            ->name('show')      ->middleware('can:view,user');
 
-        Route::get('create', [UserController::class, 'create'])->name('create')->middleware('can:create,App\Models\User');
+        Route::get('filter',            [UserController::class, 'filter'])          ->name('filter')    ->middleware('can:viewAny,App\Models\User');
 
-        Route::post('/', [UserController::class, 'store'])->name('store')->middleware('can:create,App\Models\User');
+        Route::get('create',            [UserController::class, 'create'])          ->name('create')    ->middleware('can:create,App\Models\User');
 
-        Route::get('{user}/edit', [UserController::class, 'edit'])->name('edit')->middleware('can:update,user');
+        Route::post('/',                [UserController::class, 'store'])           ->name('store')     ->middleware('can:create,App\Models\User');
 
-        Route::put('{user}', [UserController::class, 'update'])->name('update')->middleware('can:update,user');
+        Route::get('{user}/edit',       [UserController::class, 'edit'])            ->name('edit')      ->middleware('can:update,user');
 
-        Route::put('{user}/block', [UserController::class, 'alterBlocked'])->name('block')->middleware('can:viewAny,App\Models\User');
+        Route::put('{user}',            [UserController::class, 'update'])          ->name('update')    ->middleware('can:update,user');
+
+        Route::put('{user}/block',      [UserController::class, 'alterBlocked'])    ->name('block')     ->middleware('can:block_destroy_type,user');
+
+        Route::put('{user}/destroy',    [UserController::class, 'destroy'])         ->name('destroy')   ->middleware('can:block_destroy_type,user');
     });
 
 
     Route::name('clientes.')->prefix('clientes')->group(function()
     {
-        Route::get('{cliente}/edit', [ClienteController::class, 'edit'])->name('edit')->middleware('can:update,cliente');
+        Route::get('{cliente}/show',    [ClienteController::class, 'show'])         ->name('show')->middleware('can:view,cliente');
 
-        Route::put('{cliente}', [ClienteController::class, 'update'])->name('update')->middleware('can:update,cliente');
+        Route::get('{cliente}/edit',    [ClienteController::class, 'edit'])         ->name('edit')->middleware('can:update,cliente');
+
+        Route::put('{cliente}',         [ClienteController::class, 'update'])       ->name('update')->middleware('can:update,cliente');
     });
 });
 
 Route::middleware(['guest'])->name('clientes.')->prefix('clientes')->group(function()
 {
-    Route::get('create', [ClienteController::class, 'create'])->name('create');
+    Route::get('create',                [ClienteController::class, 'create'])       ->name('create');
 
-    Route::post('/', [ClienteController::class, 'store'])->name('store');
+    Route::post('/',                    [ClienteController::class, 'store'])        ->name('store');
 });
 
 Route::name('estampas.')->prefix('estampas')->group(function()
 {
-    Route::get('/', [EstampaController::class, 'index'])->name('index');
+    Route::get('/',                     [EstampaController::class, 'index'])        ->name('index');
 
-    Route::get('filter', [EstampaController::class, 'filter'])->name('filter');
+    Route::get('filter',                [EstampaController::class, 'filter'])       ->name('filter');
 });
 
 

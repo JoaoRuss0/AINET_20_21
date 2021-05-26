@@ -31,10 +31,10 @@ class UserUpdateRequest extends FormRequest
                 'email',
                 Rule::unique('users', 'email')->ignore($this->id),
             ],
-            'password' => 'nullable|confirmed',
+            'password' => 'nullable|confirmed|min:8',
             'photo' => 'nullable|image|max:8192',
-            //'tipo' => 'required|in:C,A,F',
-            //'bloqueado' => 'required|in:0,1'
+            'tipo' => 'required|in:C,A,F',
+            'bloqueado' => 'required|in:0,1'
         ];
     }
 }

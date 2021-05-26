@@ -11,7 +11,7 @@
     <form method="POST" action="{{route('users.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="table_form">
-            @csrf
+
             @include('users.partials.create-edit')
             @include('users.partials.create-edit-password')
             @include('users.partials.create-edit-admin')

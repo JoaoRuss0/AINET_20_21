@@ -26,7 +26,7 @@ class ClienteStoreRequest extends FormRequest
         return [
             'name' => 'required|regex:/^[a-zA-ZÀ-ÿ ]{1,255}$/',
             'email' => 'required|unique:users,email|email',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:8',
             'photo' => 'nullable|image|max:8192',
             'nif' => 'nullable|digits:9',
             'endereco' => 'nullable',

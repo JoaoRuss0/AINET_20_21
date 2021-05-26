@@ -10,12 +10,17 @@ class ClientePolicy
 {
     use HandlesAuthorization;
 
+    public function view(User $user, Cliente $cliente)
+    {
+        return $user->id == $cliente->id;
+    }
+
     public function update(User $user, Cliente $cliente)
     {
         return $user->id == $cliente->id;
     }
 
-    public function delete(User $user, Cliente $cliente)
+    public function delete(User $user)
     {
         return $user->tipo == 'A';
     }
