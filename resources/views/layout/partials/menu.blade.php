@@ -6,13 +6,27 @@
         >Welcome</a>
 
         <a href="{{ route("estampas.index") }}"
-        @if (Route::currentRouteName() == "estampas.index" || Route::currentRouteName() == "estampas.filter") class="menu_selected" @endif
+        @if (Route::currentRouteName() == "estampas.index"
+            || Route::currentRouteName() == "estampas.filter"
+            || Route::currentRouteName() == "estampas.show"
+            || Route::currentRouteName() == "estampas.create"
+            || Route::currentRouteName() == "estampas.edit") class="menu_selected" @endif
         >Catalog</a>
 
         @can('viewAny', App\Models\User::class)
             <a href="{{ route("users.index") }}"
-            @if (Route::currentRouteName() == "users.index" || Route::currentRouteName() == "users.filter" || Route::currentRouteName() == "users.edit") class="menu_selected" @endif
+            @if (Route::currentRouteName() == "users.index"
+                || Route::currentRouteName() == "users.filter"
+                || Route::currentRouteName() == "users.edit"
+                || Route::currentRouteName() == "users.create"
+                || Route::currentRouteName() == "users.show") class="menu_selected" @endif
             >Users</a>
+        @endcan
+
+        @can('viewAny', App\Models\Categoria::class)
+            <a href="{{ route("categorias.index") }}"
+            @if (Route::currentRouteName() == "categorias.index") class="menu_selected" @endif
+            >Categories</a>
         @endcan
 
     </div>
@@ -58,4 +72,3 @@
 
     </div>
 </div>
-<!-- { {route('users.edit', [id => Auth::user()->id]) }} -->

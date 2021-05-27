@@ -1,6 +1,6 @@
 <div>
     <label for="user_type">User Type</label>
-    <select type="text" name="tipo" id="user_type">
+    <select type="text" name="tipo" id="user_type" required>
         <option value="A" {{old('tipo', $user->tipo ?? '') == 'A' ? 'selected' : ''}}>Administrator</option>
         <option value="F" {{old('tipo', $user->tipo ?? '') == 'F' ? 'selected' : ''}}>Worker</option>
     </select>
@@ -17,7 +17,7 @@
 
 <div>
     <label for="user_blocked">Blocked</label>
-    <select type="text" name="bloqueado" id="user_blocked">
+    <select type="text" name="bloqueado" id="user_blocked" required>
         <option value=0 {{old('bloqueado', $user->bloqueado ?? '') == 0 ? 'selected' : ''}}>Not Blocked</option>
         <option value=1 {{old('bloqueado', $user->bloqueado ?? '') == 1 ? 'selected' : ''}}>Blocked</option>
     </select>

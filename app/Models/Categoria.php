@@ -25,4 +25,9 @@ class Categoria extends Model
     {
         return $this->hasMany(Estampa::class)->withTrashed();
     }
+
+    public function estampas_not_trashed()
+    {
+        return $this->hasMany(Estampa::class);
+    }
 }

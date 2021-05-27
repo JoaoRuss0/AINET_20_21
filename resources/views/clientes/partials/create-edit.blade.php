@@ -21,7 +21,6 @@
     <label for="client_address">Address
         <span class="optional_field_indicator">- Optional</span>
     </label>
-    <!--<input type="text" name="endereco" id="client_address">-->
     <textarea id="client_address" name="endereco">{{old('endereco', $cliente->endereco ?? '')}}</textarea>
 </div>
 

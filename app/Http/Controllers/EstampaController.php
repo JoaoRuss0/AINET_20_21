@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categoria;
+use Exception;
 use App\Models\Estampa;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\EstampaStoreRequest;
+use App\Http\Requests\EstampaUpdateRequest;
 
 class EstampaController extends Controller
 {
@@ -14,6 +18,14 @@ class EstampaController extends Controller
             ->with('title',"Catalog")
             ->with('categories', Categoria::all()->sortBy('nome'))
             ->with('stamps', Estampa::all());
+    }
+
+    public function show(Estampa $estampa)
+    {
+        return view('estampas.show')
+            ->with('title',"Estampa $estampa->id")
+            ->with('stamp', $estampa)
+            ->with('category', $estampa->categoria->nome);
     }
 
     public function filter(Request $request)
@@ -60,5 +72,99 @@ class EstampaController extends Controller
             ->with('categories', Categoria::all()->sortBy('nome'))
             ->with('stamps', Estampa::all())
             ->with('last_filter', $last_filter);
+    }
+
+    public function create()
+    {
+        return view('estampas.create')
+            ->with('title',"Create Stamp")
+            ->with('categories', Categoria::all()->sortBy('nome'));
+    }
+
+    public function store(EstampaStoreRequest $request)
+    {
+        try
+        {
+            $validated = $request->validated();
+            $estampa = new Estampa();
+
+            $estampa->fill($validated);
+
+            if($request->hasFile('photo') != null)
+            {
+                $photo_path = $request->file('photo')->store("public/estampas");
+                $estampa->imagem_url = basename($photo_path);
+            }
+
+            $estampa->save();
+
+            return redirect()->route('estampas.index')
+                ->with('message', "Stamp successfully created!")
+                ->with('message_type', "message_success");
+
+        }
+        catch(Exception $e)
+        {
+            // WithInput() is used in case request goes through validators without a problem but fails to create user
+            return back()->withInput()
+                ->with('message', "Error creating stamp.")
+                ->with('message_type', "message_error");
+        }
+    }
+
+    public function edit(Estampa $estampa)
+    {
+        return view('estampas.edit')
+            ->with('title', "Edit Stamp")
+            ->with('categories', Categoria::all()->sortBy('nome'))
+            ->with('stamp', $estampa);
+    }
+
+    public function update(EstampaUpdateRequest $request, Estampa $estampa)
+    {
+        try
+        {
+            $validated = $request->validated();
+            $estampa->fill($validated);
+
+            if($request->hasFile('photo') != null)
+            {
+                Storage::delete("public/estampas/" . $estampa->imagem_url);
+                $photo_path = $request->file('photo')->store("public/estampas");
+                $estampa->imagem_url = basename($photo_path);
+            }
+
+            $estampa->update();
+
+            return back()
+                ->with('message', "Stamp successfully updated!")
+                ->with('message_type', "message_success");
+        }
+        catch(Exception $e)
+        {
+            // WithInput() is used in case request goes through validators without a problem but fails to create user
+            return back()->withInput()
+                ->with('message', "Error updating stamp.")
+                ->with('message_type', "message_error");
+        }
+    }
+
+    public function destroy(Estampa $estampa)
+    {
+        try
+        {
+            $old_id = $estampa->id;
+            $estampa->delete();
+
+            return back()
+                ->with('message', "Stamp #$old_id successfully deleted!")
+                ->with('message_type', "message_success");
+        }
+        catch (Exception $e)
+        {
+            return back()
+                ->with('message', "Failed to delete stamp #$old_id.")
+                ->with('message_type', "message_error");
+        }
     }
 }

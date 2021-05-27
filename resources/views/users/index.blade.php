@@ -142,7 +142,7 @@
                 </form>
                 <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST">
                     @csrf
-                    @method('PUT')
+                    @method('DELETE')
                     <button class="button_grey">Delete</button>
                 </form>
             @endcan

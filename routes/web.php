@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
@@ -42,17 +43,40 @@ Route::middleware(['auth', 'verified'])->group(function()
 
         Route::put('{user}/block',      [UserController::class, 'alterBlocked'])    ->name('block')     ->middleware('can:block_destroy_type,user');
 
-        Route::put('{user}/destroy',    [UserController::class, 'destroy'])         ->name('destroy')   ->middleware('can:block_destroy_type,user');
+        Route::delete('{user}',         [UserController::class, 'destroy'])         ->name('destroy')   ->middleware('can:block_destroy_type,user');
     });
-
 
     Route::name('clientes.')->prefix('clientes')->group(function()
     {
-        Route::get('{cliente}/show',    [ClienteController::class, 'show'])         ->name('show')->middleware('can:view,cliente');
+        Route::get('{cliente}/show',    [ClienteController::class, 'show'])         ->name('show')      ->middleware('can:view,cliente');
 
-        Route::get('{cliente}/edit',    [ClienteController::class, 'edit'])         ->name('edit')->middleware('can:update,cliente');
+        Route::get('{cliente}/edit',    [ClienteController::class, 'edit'])         ->name('edit')      ->middleware('can:update,cliente');
 
-        Route::put('{cliente}',         [ClienteController::class, 'update'])       ->name('update')->middleware('can:update,cliente');
+        Route::put('{cliente}',         [ClienteController::class, 'update'])       ->name('update')    ->middleware('can:update,cliente');
+    });
+
+    Route::name('estampas.')->prefix('estampas')->group(function()
+    {
+        Route::get('create',            [EstampaController::class, 'create'])       ->name('create')    ->middleware('can:create,App\Models\Estampa');
+
+        Route::post('/',                [EstampaController::class, 'store'])        ->name('store')     ->middleware('can:create,App\Models\Estampa');
+
+        Route::get('{estampa}/edit',    [EstampaController::class, 'edit'])         ->name('edit')      ->middleware('can:update,estampa');
+
+        Route::put('{estampa}',         [EstampaController::class, 'update'])       ->name('update')    ->middleware('can:update,estampa');
+
+        Route::delete('{estampa}',      [EstampaController::class, 'destroy'])      ->name('destroy')   ->middleware('can:delete,estampa');
+    });
+
+    Route::name('categorias.')->prefix('categorias')->group(function()
+    {
+        Route::get('/',                 [CategoriaController::class, 'index'])      ->name('index')     ->middleware('can:viewAny,App\Models\Categoria');
+
+        Route::post('/',                [CategoriaController::class, 'store'])      ->name('store')     ->middleware('can:create,App\Models\Categoria');
+
+        Route::put('{categoria}',       [CategoriaController::class, 'update'])     ->name('update')    ->middleware('can:update,categoria');
+
+        Route::delete('{categoria}',    [CategoriaController::class, 'destroy'])    ->name('destroy')   ->middleware('can:delete,categoria');
     });
 });
 
@@ -66,6 +90,8 @@ Route::middleware(['guest'])->name('clientes.')->prefix('clientes')->group(funct
 Route::name('estampas.')->prefix('estampas')->group(function()
 {
     Route::get('/',                     [EstampaController::class, 'index'])        ->name('index');
+
+    Route::get('{estampa}/show',        [EstampaController::class, 'show'])         ->name('show');
 
     Route::get('filter',                [EstampaController::class, 'filter'])       ->name('filter');
 });

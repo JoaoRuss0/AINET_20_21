@@ -5,6 +5,15 @@
 <div id="catalog">
     <h1 class="title">Catalog</h1>
 
+    @include('layout.partials.return-message')
+
+@can('create', App\Models\Estampa::class)
+    <div class="add_stamp_div">
+        <a class="href_button button_green" href="{{ route('estampas.create') }}" >Add Stamp</a>
+    </div>
+@endcan
+
+
     <div class="filter">
         <fieldset class="filter_fieldset">
             <legend>Filter</legend>
@@ -78,11 +87,24 @@
         <div class="stamp_card">
             <p class="stamp_name"><strong>{{$stamp->nome}}</strong></p>
 
-            <img class="stamp_image" src="{{ asset("storage/estampas/$stamp->imagem_url") }}" loading="lazy" alt="No stamp logo!">
-
+            <div class="stamp_image">
+                <img src="{{ asset("storage/estampas/$stamp->imagem_url") }}" loading="lazy" alt="No stamp logo!">
+            </div>
             <p class="stamp_description">
                 {{$stamp->descricao}}
             </p>
+
+            <div class="stamp_buttons">
+                <a href="{{ route('estampas.show', ['estampa' => $stamp->id]) }}" class="href_button button_black">View</a>
+            @can(['update', 'delete'], $stamp)
+                <a href="{{ route('estampas.edit', ['estampa' => $stamp->id]) }}" class="href_button button_blue">Edit</a>
+                <form action="{{ route('estampas.destroy', ['estampa' => $stamp->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="button_red">Delete</button>
+                </form>
+            @endcan
+            </div>
         </div>
     @endforeach
     </div>

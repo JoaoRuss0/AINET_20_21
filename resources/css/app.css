@@ -255,7 +255,7 @@ body
     box-shadow: 5px 5px 8px grey;
     border-radius: 5px;
 
-    height: 400px;
+    height: 460px;
     margin: 10px;
 }
 
@@ -266,18 +266,39 @@ body
 
 .stamp_image
 {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stamp_image img
+{
     max-width: 240px;
     max-height: 240px;
+}
+
+.stamp_buttons
+{
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border-top: 2px solid black;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 .stamp_description
 {
     height: 70px;
     overflow: auto;
-
+    width: 100%;
     margin: 0px;
     padding: 10px;
     border-top: 2px solid black;
+    box-sizing: border-box;
 }
 
 .stamp_name
@@ -447,7 +468,8 @@ button
 
 /* PAGES */
 
-#create_cliente, #edit_cliente, #edit_user, #create_user, #login, #email_verify, #password_reset_email, #password_reset, #user_show
+#create_cliente, #edit_cliente, #edit_user, #create_user, #login, #email_verify, #password_reset_email,
+#password_reset, #user_client_show, #estampa_show, #edit_stamp, #create_stamp, #categories_list
 {
     display: flex;
     flex-direction: column;
@@ -725,31 +747,122 @@ button
     margin-left: 10px;
 }
 
-.add_user_div
+.add_user_div, .add_stamp_div
 {
     margin: 10px 0px;
 }
 
 /*----------------------------------------------------------------*/
 
-/* PROFILE */
+/* PROFILES */
 
-.profile
+.profile, .stamp_profile
 {
     display: flex;
     flex-direction: column;
 }
 
-.profile_img
+.profile_img, .stamp_profile_img
 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.profile a
+.profile a, .stamp_profile a
 {
     float: right;
+    margin-bottom: 20px;
+}
 
+.stamp_profile_img img
+{
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.stamp_profile_info, .profile_info
+{
+    max-width: 500px;
+}
+
+.category_title
+{
+    font-size: 30px;
+}
+
+/*----------------------------------------------------------------*/
+
+/* CATEGORIES */
+
+.categories_list
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin-bottom: 20px;
+}
+
+.category_item
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: white;
+    padding: 0px 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px grey;
+
+    margin-bottom: 10px;
+}
+
+.category_item_info
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.category_list_name
+{
+    flex-grow: 1;
+    margin-right: 20px;
+}
+
+.category_update_form
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.categories_new_form
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: white;
+    border: 2px solid black;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 5px grey;
+
+    margin-bottom: 20px;
+}
+
+.categories_new_form div
+{
+    margin-bottom: 10px;
+}
+
+#categories_list .form_error_message p
+{
+    max-width: none;
+    text-align: center;
 }
 
 @media (max-width: 1000px)
@@ -912,9 +1025,9 @@ button
         font-size: 35px;
     }
 
-    .profile
+    .profile, .stamp_profile
     {
-        margin: 30px;
+        margin: 0px 30px 30px 30px;
     }
 
     .profile a
@@ -922,6 +1035,38 @@ button
         width: 100%;
         box-sizing: border-box;
         text-align: center;
+    }
+
+    .stamp_profile_img img
+    {
+        max-width: 250px;
+        max-height: 250px;
+    }
+
+    .category_item_info
+    {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .category_update_form
+    {
+        flex-direction: column;
+    }
+
+    .category_item .form_button
+    {
+        margin-right: 0px;
+    }
+
+    .category_item .category_list_name
+    {
+        margin-right: 0px;
+    }
+
+    .category_item .form_error_message p
+    {
+        padding-bottom: 10px;
     }
 }
 

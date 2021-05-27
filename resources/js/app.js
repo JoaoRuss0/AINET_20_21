@@ -24,16 +24,19 @@ clear_buttons.forEach(button =>
 var payment_ref_element = document.getElementById("client_payment_ref");
 var payment_type_element = document.getElementById("client_payment_type");
 var user_email_element = document.getElementById("user_email");
+var optional_indicator = document.querySelector("label[for='client_payment_ref'] .optional_field_indicator");
 
 // Payment reference field starts as disabled and without a pattern
 // If the form has invalid values filled in, after submitting, laravel redirects back to the register page and the payment type is automatically selected
 // which has to have a pattern and not be disabled if it is either "VISA" or "MC"
-if(payment_ref_element && payment_type_element && user_email_element)
+if(payment_ref_element && payment_type_element && user_email_element && optional_indicator)
 {
     if(payment_type_element.value == "MC" || payment_type_element.value == "VISA")
     {
         payment_ref_element.removeAttribute('disabled');
         payment_ref_element.setAttribute('pattern', "^\\d{16}$");
+        payment_ref_element.setAttribute('required', "");
+        optional_indicator.setAttribute('style', "visibility:hidden");
     }
 
     // Anytime the email changes, if the payment type is paypal, the payment reference has to also change
@@ -55,15 +58,20 @@ if(payment_ref_element && payment_type_element && user_email_element)
                 payment_ref_element.value = "";
                 payment_ref_element.removeAttribute('disabled');
                 payment_ref_element.setAttribute('pattern', "^\\d{16}$");
+                payment_ref_element.setAttribute('required', "");
+                optional_indicator.setAttribute('style', "visibility:hidden");
             }
             else
             {
                 payment_ref_element.setAttribute('disabled',"");
                 payment_ref_element.removeAttribute('pattern');
+                payment_ref_element.removeAttribute('required');
 
                 if(this.value == "")
                 {
                     payment_ref_element.value = "";
+
+                    optional_indicator.removeAttribute('style');
                 }
                 else
                 {

@@ -6,9 +6,9 @@
     @if ($cliente->tipo_pagamento == NULL)
         ----
     @elseif ($cliente->tipo_pagamento == 'MC')
-        MasterCard
+        MASTERCARD
     @else
-        {{ ucfirst($cliente->tipo_pagamento) }}
+        {{ $cliente->tipo_pagamento }}
     @endif
 </p>
 <p><strong>Payment Reference: </strong>{{$cliente->ref_pagamento ?? "----"}}</p>

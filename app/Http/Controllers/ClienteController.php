@@ -23,7 +23,8 @@ class ClienteController extends Controller
 
     public function create()
     {
-        return view('clientes.create')->with('title',"Register now!");
+        return view('clientes.create')
+            ->with('title',"Register now!");
     }
 
     public function store(ClienteStoreRequest $request)
@@ -81,7 +82,7 @@ class ClienteController extends Controller
     public function edit(Cliente $cliente)
     {
         return view('clientes.edit')
-            ->with('title', "Edit account")
+            ->with('title', "Edit Account")
             ->with('cliente', $cliente)
             ->with('user', $cliente->user);
     }
