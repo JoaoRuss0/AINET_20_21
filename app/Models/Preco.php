@@ -9,7 +9,7 @@ class Preco extends Model
 {
     use HasFactory;
 
-    protected $timestamps = false;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -19,8 +19,8 @@ class Preco extends Model
     protected $fillable = [
         'preco_un_catalogo',
         'preco_un_proprio',
-        'preco_un_catalogo_proprio',
-        'preco_un_proprio_proprio',
+        'preco_un_catalogo_desconto',
+        'preco_un_proprio_desconto',
         'quantidade_desconto',
     ];
 }

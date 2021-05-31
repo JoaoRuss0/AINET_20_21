@@ -11,10 +11,10 @@ class Cor extends Model
     use HasFactory, SoftDeletes;
 
     public $primaryKey = 'codigo';
+    public $timestamps = false;
     public $incrementing = false;
     protected $table = 'cores';
     protected $keyType = 'string';
-    protected $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +23,7 @@ class Cor extends Model
      */
     protected $fillable = [
         'nome',
+        'codigo',
     ];
 
     public function tshirts()

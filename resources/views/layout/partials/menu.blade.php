@@ -29,6 +29,16 @@
             >Categories</a>
         @endcan
 
+        @can('viewAny', App\Models\Cor::class)
+            <a href="{{ route("cores.index") }}"
+            @if (Route::currentRouteName() == "cores.index"
+                || Route::currentRouteName() == "cores.edit") class="menu_selected" @endif
+            >Colours</a>
+        @endcan
+
+        <a href="{{ route("precos.index") }}"
+        @if (Route::currentRouteName() == "precos.index") class="menu_selected" @endif
+        >Prices</a>
     </div>
 
     <div id="menu_items_right">

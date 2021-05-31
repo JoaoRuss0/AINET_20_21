@@ -109,11 +109,8 @@ class ClienteController extends Controller
                 $validated['ref_pagamento'] = $request->email;
             }
 
-
             $cliente->user->fill($validated);
-
-            $cliente->fill($validated);
-            $cliente->update();
+            $cliente->update($validated);
 
             if($request->hasFile('photo') != null)
             {

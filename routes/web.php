@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\CategoriaController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CorController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\EstampaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\EstampaController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\PrecoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +80,24 @@ Route::middleware(['auth', 'verified'])->group(function()
 
         Route::delete('{categoria}',    [CategoriaController::class, 'destroy'])    ->name('destroy')   ->middleware('can:delete,categoria');
     });
+
+    Route::name('cores.')->prefix('cores')->group(function()
+    {
+        Route::get('/',                 [CorController::class, 'index'])            ->name('index')     ->middleware('can:viewAny,App\Models\Cor');
+
+        Route::post('/',                [CorController::class, 'store'])            ->name('store')     ->middleware('can:create,App\Models\Cor');
+
+        Route::get('{cor}/edit',        [CorController::class, 'edit'])             ->name('edit')      ->middleware('can:update,cor');
+
+        Route::put('{cor}',             [CorController::class, 'update'])           ->name('update')    ->middleware('can:update,cor');
+
+        Route::delete('{cor}',          [CorController::class, 'destroy'])          ->name('destroy')   ->middleware('can:delete,cor');
+    });
+
+    Route::name('precos.')->prefix('precos')->group(function()
+    {
+        Route::put('{preco}',           [PrecoController::class, 'update'])         ->name('update')    ->middleware('can:update,preco');
+    });
 });
 
 Route::middleware(['guest'])->name('clientes.')->prefix('clientes')->group(function()
@@ -96,6 +116,10 @@ Route::name('estampas.')->prefix('estampas')->group(function()
     Route::get('filter',                [EstampaController::class, 'filter'])       ->name('filter');
 });
 
+Route::name('precos.')->prefix('precos')->group(function()
+{
+    Route::get('/',                     [PrecoController::class, 'index'])          ->name('index');
+});
 
 /* Auth */
 

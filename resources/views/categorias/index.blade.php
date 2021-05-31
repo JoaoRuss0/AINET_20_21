@@ -1,7 +1,7 @@
 @extends('layout.template')
 
 @section('content')
-    <div id="categories_list">
+    <div id="categories">
         <h1 class="title">Categories</h1>
 
         @include('layout.partials.return-message')
@@ -11,8 +11,8 @@
 
             <div>
                 <label for="category_nome">
-                    <span class="tooltip">New Name
-                        <span class="tooltiptext_top">Can contain any accented upper/lower case letter and spaces with max size of 255 characters.</span>
+                    <span class="tooltip">Name
+                        <span class="tooltiptext_bottom">Can contain any accented upper/lower case letter and spaces with max size of 255 characters.</span>
                     </span>
                 </label>
                 <input type="text" name="nome" id="category_nome" pattern="^[a-zA-Z0-9 \u00C0-\u00FF]{1,255}$"
@@ -50,7 +50,13 @@
                         <div>
                             <label for="category_nome">
                                 <span class="tooltip">New Name
-                                    <span class="tooltiptext_top">Can contain any accented upper/lower case letter and spaces with max size of 255 characters.</span>
+                                    <span class="
+                                    @if($loop->last)
+                                        tooltiptext_top
+                                    @else
+                                        tooltiptext_bottom
+                                    @endif
+                                    ">Can contain numbers, any accented upper/lower case letter and spaces with max size of 255 characters.</span>
                                 </span>
                             </label>
                             <input type="text" name="nome" id="category_nome" pattern="^[a-zA-Z0-9 \u00C0-\u00FF]{1,255}$"
@@ -62,13 +68,13 @@
 
                         <input type="hidden" type="text" name="categoria_id" value="{{$category->id}}">
 
-                        <button type="submit" class="form_button button_blue">Update</button>
+                        <button type="submit" class="button_blue">Update</button>
                     </form>
 
                     <form action="{{ route('categorias.destroy', ['categoria' => $category->id]) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="form_button button_red">Delete</button>
+                        <button type="submit" class="button_red">Delete</button>
                     </form>
                 </div>
 

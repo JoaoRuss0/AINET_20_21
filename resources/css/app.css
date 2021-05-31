@@ -469,7 +469,7 @@ button
 /* PAGES */
 
 #create_cliente, #edit_cliente, #edit_user, #create_user, #login, #email_verify, #password_reset_email,
-#password_reset, #user_client_show, #estampa_show, #edit_stamp, #create_stamp, #categories_list
+#password_reset, #user_client_show, #estampa_show, #edit_stamp, #create_stamp, #categories, #colours, #prices
 {
     display: flex;
     flex-direction: column;
@@ -794,27 +794,34 @@ button
 
 /* CATEGORIES */
 
-.categories_list
+.categories_list, .colour_list
 {
     display: flex;
-    flex-direction: column;
     justify-content: center;
 
     margin-bottom: 20px;
 }
 
-.category_item
+.categories_list
+{
+    flex-direction: column;
+}
+
+.category_item, .colour_item
 {
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     background-color: white;
-    padding: 0px 10px;
     border: 2px solid black;
     border-radius: 5px;
     box-shadow: 5px 5px 5px grey;
+}
 
+.category_item
+{
+    padding: 0px 10px;
     margin-bottom: 10px;
 }
 
@@ -839,7 +846,7 @@ button
     justify-content: center;
 }
 
-.categories_new_form
+.categories_new_form, .colours_new_form
 {
     display: flex;
     flex-direction: column;
@@ -847,14 +854,19 @@ button
 
     background-color: white;
     border: 2px solid black;
-    padding: 15px;
     border-radius: 5px;
     box-shadow: 0px 5px 5px grey;
 
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
-.categories_new_form div
+.categories_new_form
+{
+    padding: 15px;
+}
+
+.categories_new_form div, .colours_new_form div
 {
     margin-bottom: 10px;
 }
@@ -863,6 +875,113 @@ button
 {
     max-width: none;
     text-align: center;
+}
+
+.category_item button
+{
+    margin-left: 10px;
+}
+
+.category_item p > strong
+{
+    font-size: 15px;
+}
+
+/*----------------------------------------------------------------*/
+
+/* COLOURS */
+
+.colours_new_form
+{
+    padding: 5px 15px 15px 15px;
+}
+
+.colour_list
+{
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    padding: 0px 30px;
+}
+
+.colour_item
+{
+    display: flex;
+    flex-direction: column;
+    margin: 0px 10px 10px 10px;
+
+    padding: 0px 10px 10px 10px;
+}
+
+.colour_item div
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.colour_showcase
+{
+    width: 20px;
+    height: 20px;
+
+    display: inline-block;
+    vertical-align:bottom;
+    border: 1px solid black;
+}
+
+.colour_item form button
+{
+    margin-left: 10px;
+}
+
+/*----------------------------------------------------------------*/
+
+/* PRICES */
+
+.price_table, .price_table_admin
+{
+    display: flex;
+    border: 2px solid black;
+    background-color: white;
+    box-shadow: 0px 5px 5px grey;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.price_table
+{
+    flex-direction: row;
+}
+
+.price_table_admin
+{
+    flex-direction: column;
+}
+
+.price_table > div, .price_table_admin > div
+{
+    padding: 10px;
+}
+
+.price_table > div
+{
+    border-right: 2px solid black;
+}
+
+.price_table > div:last-child
+{
+    border-right: 0px;
+}
+
+.price_table > div
+{
+    text-align: center;
+}
+
+.price_table_admin button
+{
+    margin: 10px;
 }
 
 @media (max-width: 1000px)
@@ -938,6 +1057,30 @@ button
         margin-top: 10px;
         margin-left: 0px;
         margin-right: 10px;
+    }
+}
+
+@media (max-width: 900px)
+{
+    .price_table
+    {
+        flex-direction: column;
+    }
+
+    .price_table > div
+    {
+        border-right: 0px;
+        border-top: 2px solid black;
+    }
+
+    .price_table > div:first-child
+    {
+        border-top: 0px;
+    }
+
+    .price_table > div, .price_table > div form input
+    {
+        text-align: left;
     }
 }
 
@@ -1067,6 +1210,19 @@ button
     .category_item .form_error_message p
     {
         padding-bottom: 10px;
+    }
+
+    .category_item button
+    {
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+
+    .colour_list
+    {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        max-width: 280px;
     }
 }
 
