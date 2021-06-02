@@ -17,7 +17,7 @@ class EstampaController extends Controller
         return view('estampas.index')
             ->with('title',"Catalog")
             ->with('categories', Categoria::all()->sortBy('nome'))
-            ->with('stamps', Estampa::all());
+            ->with('stamps', Estampa::where('cliente_id', NULL)->get());
     }
 
     public function show(Estampa $estampa)
@@ -31,6 +31,7 @@ class EstampaController extends Controller
     public function filter(Request $request)
     {
         $stamp_querry = Estampa::query();
+        $stamp_querry = $stamp_querry->where('cliente_id', NULL);
         $last_filter = [];
         $NO_PARAMETERS = TRUE;
 
@@ -70,7 +71,7 @@ class EstampaController extends Controller
         return view('estampas.index')
             ->with('title',"Catalog")
             ->with('categories', Categoria::all()->sortBy('nome'))
-            ->with('stamps', Estampa::all())
+            ->with('stamps', Estampa::where('cliente_id', NULL)->get())
             ->with('last_filter', $last_filter);
     }
 

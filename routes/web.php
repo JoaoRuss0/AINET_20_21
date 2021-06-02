@@ -25,7 +25,7 @@ use App\Http\Controllers\PrecoController;
 Route::view('/', 'welcome', ['title' => "Welcome to MagicShirts!"])                 ->name('welcome');
 
 
-Route::middleware(['auth', 'verified'])->group(function()
+Route::middleware(['auth', 'verified', 'bloqueado'])->group(function()
 {
     Route::name('users.')->prefix('users')->group(function()
     {
@@ -98,6 +98,16 @@ Route::middleware(['auth', 'verified'])->group(function()
     {
         Route::put('{preco}',           [PrecoController::class, 'update'])         ->name('update')    ->middleware('can:update,preco');
     });
+
+    Route::name('estampas.')->prefix('estampas')->group(function()
+    {
+        Route::get('/',                 [EstampaController::class, 'index'])        ->name('index');
+    });
+
+    Route::name('precos.')->prefix('precos')->group(function()
+    {
+        Route::get('/',                     [PrecoController::class, 'index'])          ->name('index');
+    });
 });
 
 Route::middleware(['guest'])->name('clientes.')->prefix('clientes')->group(function()
@@ -109,7 +119,7 @@ Route::middleware(['guest'])->name('clientes.')->prefix('clientes')->group(funct
 
 Route::name('estampas.')->prefix('estampas')->group(function()
 {
-    Route::get('/',                     [EstampaController::class, 'index'])        ->name('index');
+    Route::get('/guest',                [EstampaController::class, 'index'])        ->name('guest.index');
 
     Route::get('{estampa}/show',        [EstampaController::class, 'show'])         ->name('show');
 
@@ -118,7 +128,7 @@ Route::name('estampas.')->prefix('estampas')->group(function()
 
 Route::name('precos.')->prefix('precos')->group(function()
 {
-    Route::get('/',                     [PrecoController::class, 'index'])          ->name('index');
+    Route::get('/guest',                [PrecoController::class, 'index'])          ->name('guest.index');
 });
 
 /* Auth */

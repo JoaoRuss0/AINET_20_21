@@ -5,13 +5,21 @@
         @if (Route::currentRouteName() == "welcome") class="menu_selected" @endif
         >Welcome</a>
 
-        <a href="{{ route("estampas.index") }}"
-        @if (Route::currentRouteName() == "estampas.index"
+        <a href="
+        @auth
+            {{ route("estampas.index") }}
+        @else
+            {{ route("estampas.guest.index") }}
+        @endauth
+        "
+        @if (Route::currentRouteName() == "estampas.guest.index"
+            ||Route::currentRouteName() == "estampas.index"
             || Route::currentRouteName() == "estampas.filter"
             || Route::currentRouteName() == "estampas.show"
             || Route::currentRouteName() == "estampas.create"
             || Route::currentRouteName() == "estampas.edit") class="menu_selected" @endif
         >Catalog</a>
+
 
         @can('viewAny', App\Models\User::class)
             <a href="{{ route("users.index") }}"
@@ -36,8 +44,15 @@
             >Colours</a>
         @endcan
 
-        <a href="{{ route("precos.index") }}"
-        @if (Route::currentRouteName() == "precos.index") class="menu_selected" @endif
+        <a href="
+        @auth
+            {{ route("precos.index") }}
+        @else
+            {{ route("precos.guest.index") }}
+        @endauth
+        "
+        @if (Route::currentRouteName() == "precos.index"
+            || Route::currentRouteName() == "precos.guest.index") class="menu_selected" @endif
         >Prices</a>
     </div>
 

@@ -26,7 +26,7 @@ class UserPolicy
 
     public function update(User $user, User $model)
     {
-        // Only an  can edit/update Admin but the user model can't be a client
+        // Only an admin can edit/update Admin but the user model can't be a client
         return $model->tipo != 'C' && $user->tipo == 'A';
     }
 

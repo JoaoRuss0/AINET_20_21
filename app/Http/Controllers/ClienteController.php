@@ -60,9 +60,9 @@ class ClienteController extends Controller
             $user->bloqueado = 0;
             $user->update();
 
-            DB::commit();
-
             $user->sendEmailVerificationNotification();
+
+            DB::commit();
 
             return redirect()->route('login')
                 ->with('message', "Client account successfully created!")
