@@ -48,7 +48,6 @@ class CategoriaController extends Controller
             return redirect()->route('categorias.index')
                 ->with('message', "Category #$categoria->id successfully updated!")
                 ->with('message_type', "message_success");
-
         }
         catch(Exception $e)
         {

@@ -19,8 +19,10 @@
         <div class="colour_list">
         @foreach ($colours as $colour)
             <div class="colour_item">
-                <p>
-                    <strong>{{ $colour->nome }}:</strong> {{ $colour->codigo }}
+                <p class="color_flex">
+                    <span>
+                        <strong>{{ $colour->nome }}:</strong> {{ $colour->codigo }}
+                    </span>
                     <span class="colour_showcase" style="background-color:{{$colour->codigo}}"></span>
                 </p>
                 <div>

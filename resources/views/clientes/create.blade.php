@@ -8,10 +8,9 @@
     <p class="message_error">Fields were not filled correctly.</p>
 @endif
     @include('layout.partials.return-message')
-    <form method="POST" action="{{route('clientes.store')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('clientes.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="table_form">
-            @csrf
             @include('users.partials.create-edit')
             @include('users.partials.create-edit-password')
             @include('clientes.partials.create-edit')

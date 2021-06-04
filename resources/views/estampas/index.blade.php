@@ -13,11 +13,16 @@
     </div>
 @endcan
 
-
     <div class="filter">
         <fieldset class="filter_fieldset">
             <legend>Filter</legend>
-            <form action="{{ route('estampas.filter') }}" class="filter_form">
+            <form action="
+            @auth
+                {{ route('estampas.filter') }}
+            @else
+                {{ route('estampas.guest.filter') }}
+            @endauth
+            " class="filter_form">
 
                 <div class="filter_form_table">
                     <div>
@@ -95,7 +100,11 @@
             </p>
 
             <div class="stamp_buttons">
+            @auth
                 <a href="{{ route('estampas.show', ['estampa' => $stamp->id]) }}" class="href_button button_black">View</a>
+            @else
+                <a href="{{ route('estampas.guest.show', ['estampa' => $stamp->id]) }}" class="href_button button_black">View</a>
+            @endauth
             @can(['update', 'delete'], $stamp)
                 <a href="{{ route('estampas.edit', ['estampa' => $stamp->id]) }}" class="href_button button_blue">Edit</a>
                 <form action="{{ route('estampas.destroy', ['estampa' => $stamp->id]) }}" method="POST">
@@ -103,6 +112,9 @@
                     @method('DELETE')
                     <button class="button_red">Delete</button>
                 </form>
+            @endcan
+            @can('view', App\Models\Cart::class)
+                <a href="{{ route('cart.add', ['estampa' => $stamp->id]) }}" class="href_button button_green">Add to Cart</a>
             @endcan
             </div>
         </div>

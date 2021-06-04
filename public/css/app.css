@@ -34,11 +34,6 @@ body
     margin: 30px;
 }
 
-#welcome, #catalog, #login, #user_list
-{
-    flex-grow: 1;
-}
-
 .invisible
 {
     visibility: hidden;
@@ -177,13 +172,56 @@ body
 
 /*----------------------------------------------------------------*/
 
-/* WELCOME PAGE */
+/* PAGES */
 
-#welcome
+#create_cliente, #edit_cliente, #edit_user, #create_user, #login, #email_verify, #password_reset_email,
+#password_reset, #user_client_show, #estampa_show, #edit_stamp, #create_stamp, #categories, #colours, #prices,
+#cart, #cart_add, #welcome, #catalog, #user_list
 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-grow: 1;
+    padding: 15px;
+}
+
+.message
+{
+    margin: 0px;
+}
+
+.message_error
+{
+    margin: 5px !important;
+    padding: 5px;
+    color: red;
+    background-color: lightcoral;
+    border: solid 1.5px red;
+    border-radius: 5px;
+}
+
+.message_success
+{
+    margin: 5px !important;
+    padding: 5px;
+    color: green;
+    background-color: lightgreen;
+    border: solid 1.5px green;
+    border-radius: 5px;
+}
+
+.email_sent
+{
+    margin:30px;
+    text-align: center;
+}
+
+/*----------------------------------------------------------------*/
+
+/* WELCOME PAGE */
+
+#welcome
+{
     justify-content: center;
     text-align: center;
 
@@ -220,14 +258,6 @@ body
 /*----------------------------------------------------------------*/
 
 /* CATALOG PAGE*/
-
-#catalog
-{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 /* STAMP CARDS AND TABLE */
 
 #stamps_table
@@ -325,7 +355,7 @@ body
     background-color: white;
     box-shadow: 0px 5px 5px grey;
 
-    margin: 0px 10px;
+    margin: 0px;
     border: 2.0px solid black;
 }
 
@@ -460,50 +490,6 @@ button
 .filter_search_parameters p
 {
     margin: 0;
-}
-
-/*----------------------------------------------------------------*/
-
-/* PAGES */
-
-#create_cliente, #edit_cliente, #edit_user, #create_user, #login, #email_verify, #password_reset_email,
-#password_reset, #user_client_show, #estampa_show, #edit_stamp, #create_stamp, #categories, #colours, #prices
-{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-}
-
-.message
-{
-    margin: 0px;
-}
-
-.message_error
-{
-    margin: 5px !important;
-    padding: 5px;
-    color: red;
-    background-color: lightcoral;
-    border: solid 1.5px red;
-    border-radius: 5px;
-}
-
-.message_success
-{
-    margin: 5px !important;
-    padding: 5px;
-    color: green;
-    background-color: lightgreen;
-    border: solid 1.5px green;
-    border-radius: 5px;
-}
-
-.email_sent
-{
-    margin:30px;
-    text-align: center;
 }
 
 /*----------------------------------------------------------------*/
@@ -681,13 +667,6 @@ button
 
 /* USER LIST PAGE */
 
-#user_list
-{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 #list
 {
     display: flex;
@@ -709,7 +688,7 @@ button
     background-color: white;
     border: 2px solid black;
     border-radius: 5px;
-    margin: 10px;
+    margin-top: 20px;
     box-shadow: 5px 5px 5px grey;
     box-sizing: border-box;
 }
@@ -769,7 +748,6 @@ button
 .profile a, .stamp_profile a
 {
     float: right;
-    margin-bottom: 20px;
 }
 
 .stamp_profile_img img
@@ -796,8 +774,6 @@ button
 {
     display: flex;
     justify-content: center;
-
-    margin-bottom: 20px;
 }
 
 .categories_list
@@ -923,6 +899,7 @@ button
     width: 20px;
     height: 20px;
 
+    margin-left: 10px;
     display: inline-block;
     vertical-align:bottom;
     border: 1px solid black;
@@ -950,6 +927,7 @@ button
 .price_table
 {
     flex-direction: row;
+    margin-bottom: 10px;
 }
 
 .price_table_admin
@@ -980,6 +958,107 @@ button
 .price_table_admin button
 {
     margin: 10px;
+}
+
+/*----------------------------------------------------------------*/
+
+/* CART AND ADD TO CART*/
+
+#cart_add img
+{
+    max-width: 250px;
+    max-height: 250px;
+    margin-top: 20px;
+}
+
+#cart_add > div
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#cart_add form
+{
+    margin-bottom: 20px;
+}
+
+#cart_add select
+{
+    width: 250px;
+    box-sizing: border-box;
+}
+
+#cart
+{
+    margin: 20px;
+}
+
+.cart_list
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.cart_item
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.cart_item_image
+{
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart_item img
+{
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.cart_item p, .cart_item_image img
+{
+    margin-right: 30px;
+}
+
+.cart_item_border
+{
+    border-bottom: 2px solid black;
+}
+
+#cart_clear
+{
+    text-align: end;
+    margin: 20px 0px;
+}
+
+.cart_list button
+{
+    margin-top: 4px;
+}
+
+.cart_totals
+{
+    text-align: end;
+    margin-right: 15px;
+}
+
+.cart_empty_p
+{
+    text-align: center;
 }
 
 @media (max-width: 1000px)
@@ -1082,6 +1161,43 @@ button
     }
 }
 
+@media (max-width: 800px)
+{
+    .cart_item
+    {
+        align-items: start;
+        flex-direction: column;
+        max-width: 280px;
+        box-sizing: border-box;
+    }
+
+    .cart_item_image
+    {
+        align-self: center;
+
+    }
+
+    .cart_item_image img
+    {
+        margin-right: 0px;
+    }
+
+    .cart_item_buttons
+    {
+        display: flex;
+    }
+
+    .cart_item_buttons button
+    {
+        margin: 5px;
+    }
+
+    #cart_clear button
+    {
+        width: 100%;
+    }
+}
+
 @media (max-width: 600px)
 {
     #list
@@ -1171,7 +1287,7 @@ button
         margin: 0px 30px 30px 30px;
     }
 
-    .profile a
+    .profile a, .stamp_profile a
     {
         width: 100%;
         box-sizing: border-box;
@@ -1221,6 +1337,20 @@ button
         flex-direction: column;
         flex-wrap: nowrap;
         max-width: 280px;
+    }
+
+    .color_flex
+    {
+        align-items: baseline;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #cart_add form
+    {
+        display: flex;
+        justify-content: center;
     }
 }
 

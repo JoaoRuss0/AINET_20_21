@@ -17,7 +17,8 @@
             || Route::currentRouteName() == "estampas.filter"
             || Route::currentRouteName() == "estampas.show"
             || Route::currentRouteName() == "estampas.create"
-            || Route::currentRouteName() == "estampas.edit") class="menu_selected" @endif
+            || Route::currentRouteName() == "estampas.edit"
+            || Route::currentRouteName() == "cart.add") class="menu_selected" @endif
         >Catalog</a>
 
 
@@ -54,6 +55,19 @@
         @if (Route::currentRouteName() == "precos.index"
             || Route::currentRouteName() == "precos.guest.index") class="menu_selected" @endif
         >Prices</a>
+
+        @can('view', App\Models\Cart::class)
+            <a href="
+            @auth
+                {{ route("cart.index") }}
+            @else
+                {{ route("cart.guest.index") }}
+            @endauth
+            "
+            @if (Route::currentRouteName() == "cart.index"
+                || Route::currentRouteName() == "cart.guest.index") class="menu_selected" @endif
+            >Cart</a>
+        @endcan
     </div>
 
     <div id="menu_items_right">

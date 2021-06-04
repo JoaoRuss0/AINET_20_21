@@ -12,7 +12,7 @@ class PrecoController extends Controller
     {
         return view('precos.index')
             ->with('title', 'Prices')
-            ->with('prices', Preco::all()->first());
+            ->with('prices', Preco::first());
     }
 
     public function update(PrecosPostRequest $request, Preco $preco)
