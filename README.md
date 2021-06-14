@@ -23,12 +23,12 @@
 ## Workers
 
 - Change account password
-- Manage **Orders** ("**Pending**" and "**Payed**"):
+- Manage **Orders** ("**Pending**" and "**Paid**"):
   - Consult
   - See details
 - Change **Order's** state from:
-  - "**Pending**" to "**Payed**"
-  - "**Payed**" to "**Closed**"
+  - "**Pending**" to "**Paid**"
+  - "**Paid**" to "**Closed**"
 
 ## Administrators
 
@@ -52,7 +52,7 @@
   - See details (*PDF*)
 - Declare **Orders** as:
   - "**Canceled**"
-  - "**Payed**"
+  - "**Paid**"
   - "**Closed**"
 - Manage **Categories** and the **Stamp Catalog**
 - Set prices
