@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CorController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PrecoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EstampaController;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\PrecoController;
+use App\Http\Controllers\EncomendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,6 +119,15 @@ Route::middleware(['auth', 'bloqueado', 'verified'])->group(function()
     {
         Route::get('/',                 [CartController::class, 'index'])           ->name('index')         ->middleware('can:view,App\Models\Cart');
     });
+
+    Route::name('encomendas.')->prefix('encomendas')->group(function()
+    {
+        Route::get('/',                 [EncomendaController::class, 'index'])     ->name('index');
+
+        Route::get('{encomenda}/show',  [EncomendaController::class, 'show'])       ->name('show')          ->middleware('can:view,encomenda');;
+
+        Route::post('/',                [EncomendaController::class, 'store'])     ->name('store')          ->middleware('can:create,App\Models\Encomenda');
+    });
 });
 
 Route::middleware(['guest'])->group(function()
@@ -142,12 +152,16 @@ Route::middleware(['guest'])->group(function()
     {
         Route::get('/guest',            [PrecoController::class, 'index'])          ->name('guest.index');
     });
+
+    Route::name('cart.')->prefix('cart')->group(function()
+    {
+        Route::get('/guest',                [CartController::class, 'index'])           ->name('guest.index')   ->middleware('can:view,App\Models\Cart');
+    });
 });
 
 
 Route::name('cart.')->prefix('cart')->group(function()
 {
-    Route::get('/guest',                [CartController::class, 'index'])           ->name('guest.index')   ->middleware('can:view,App\Models\Cart');
 
     Route::get('{estampa}/add',         [CartController::class, 'addView'])         ->name('add')           ->middleware('can:update,App\Models\Cart');
 

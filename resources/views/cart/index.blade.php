@@ -24,13 +24,13 @@
                         <span>
                             <strong>Colour:</strong> {{ $item['colour_name'] }}
                         </span>
-                        <span class="colour_showcase" style="background-color:{{$item['colour_code']}}"></span>
+                        <span class="colour_showcase" style="background-color:{{$item['cor_codigo']}}"></span>
                     </p>
-                    <p><strong>Size: </strong>{{ $item['size'] }}</p>
+                    <p><strong>Size: </strong>{{ $item['tamanho'] }}</p>
                 </div>
                 <div>
                     <p><strong>Subtotal: </strong>{{ number_format($item['subtotal'], 2) }} €</p>
-                    <p><strong>Quantity: </strong>{{ $item['qty'] }}</p>
+                    <p><strong>Quantity: </strong>{{ $item['quantidade'] }}</p>
                 </div>
 
                 <div class="cart_item_buttons">
@@ -62,11 +62,27 @@
             </div>
         </div>
 
-        <form action="{{ route('cart.destroy') }}" method="POST" id="cart_clear">
-            @csrf
-            @method('DELETE')
-            <button class="button_red">Empty Cart</button>
-        </form>
+        <div id="cart_buttons">
+            <form action="{{ route('encomendas.store') }}" method="POST" id="cart_confirm">
+                @csrf
+                <div>
+                    <label for="textarea_notas">
+                        <span class="tooltip">Notes
+                            <span class="tooltiptext_bottom">Add a custom message for your order.</span>
+                        </span>
+                        <span class="optional_field_indicator"> - Optional</span>
+                    </label>
+                    <textarea id="textarea_notas" name="notas">{{old('notas')}}</textarea>
+                </div>
+                <button class="button_green">Confirm Order</button>
+            </form>
+
+            <form action="{{ route('cart.destroy') }}" method="POST" id="cart_clear">
+                @csrf
+                @method('DELETE')
+                <button class="button_red">Empty Cart</button>
+            </form>
+        </div>
     </div>
 @else
     <p class="cart_empty_p">No items were added to the shopping cart!</p>

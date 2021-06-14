@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Encomenda extends Model
 {
     use HasFactory;
 
-    protected $timestamps = true;
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +31,7 @@ class Encomenda extends Model
 
     public function tshirts()
     {
-        return $this->hasMany(Tshirt::class)->withTrashed();
+        return $this->hasMany(Tshirt::class);
     }
 
     public function cliente()

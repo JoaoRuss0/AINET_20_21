@@ -30,19 +30,23 @@ class Cart
         }
 
         $this->total_qty += $item['quantity'];
+
         $precos = Preco::first();
         $stamp = Estampa::find($item['stamp_id']);
+        $preco_un = ($item['quantity'] >= $precos->quantidade_desconto) ?  $precos->preco_un_catalogo_desconto : $precos->preco_un_catalogo;
 
         // Item is not in the cart or cart is empty
-        $this->items[$id] = [
-            'qty' => $item['quantity'],
-            'size' => $item['size'],
-            'colour_code' => $item['colour_code'],
+        $this->items[$id] =
+        [
+            'estampa_id' => $item['stamp_id'],
+            'cor_codigo' => $item['colour_code'],
+            'tamanho' => $item['size'],
+            'quantidade' => $item['quantity'],
+            'preco_un' => $preco_un,
+            'subtotal' => $item['quantity'] * $preco_un,
             'colour_name' => Cor::find($item['colour_code'])->nome,
             'stamp_name' => $stamp->nome,
             'stamp_photo' => $stamp->imagem_url,
-            'stamp_id' => $item['stamp_id'],
-            'subtotal' => ($item['quantity'] >= $precos->quantidade_desconto) ? $item['quantity'] * $precos->preco_un_catalogo_desconto : $item['quantity'] * $precos->preco_un_catalogo,
         ];
 
         $this->total_price += $this->items[$id]['subtotal'];

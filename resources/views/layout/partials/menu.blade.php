@@ -68,6 +68,11 @@
                 || Route::currentRouteName() == "cart.guest.index") class="menu_selected" @endif
             >Cart</a>
         @endcan
+
+        <a href="{{ route("encomendas.index") }}"
+            @if (Route::currentRouteName() == "encomendas.index"
+                || Route::currentRouteName() == "encomendas.show") class="menu_selected" @endif
+            >Orders</a>
     </div>
 
     <div id="menu_items_right">

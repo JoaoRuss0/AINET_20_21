@@ -507,7 +507,6 @@ button
 }
 
 .table_form label, .table_form input, .table_form select, .table_form textarea
-
 {
     box-sizing: border-box;
 }
@@ -1002,6 +1001,7 @@ button
     background-color: white;
     border: 2px solid black;
     border-radius: 5px;
+    box-shadow: 5px 5px 5px grey;
 }
 
 .cart_item
@@ -1013,7 +1013,7 @@ button
     padding: 15px;
 }
 
-.cart_item_image
+.cart_item_image, .order_show_stamp_image
 {
     width: 180px;
     height: 180px;
@@ -1023,7 +1023,7 @@ button
     align-items: center;
 }
 
-.cart_item img
+.cart_item img, .order_show_stamp_image img
 {
     max-width: 150px;
     max-height: 150px;
@@ -1039,10 +1039,22 @@ button
     border-bottom: 2px solid black;
 }
 
-#cart_clear
+#cart_buttons
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#cart_clear, #cart_confirm
 {
     text-align: end;
-    margin: 20px 0px;
+    margin: 5px 0px;
+}
+
+#cart_clear
+{
+    margin-left: 20px;
 }
 
 .cart_list button
@@ -1056,9 +1068,100 @@ button
     margin-right: 15px;
 }
 
+#cart_confirm > div
+{
+    margin-bottom: 10px;
+}
+
+#cart_confirm > div label
+{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+#cart_confirm > div textarea
+{
+    margin-bottom: 10px;
+}
+
+#textarea_notas
+{
+    box-sizing: border-box;
+    vertical-align: bottom;
+    width: 100%;
+    box-shadow: 5px 5px 5px grey;
+}
+
 .cart_empty_p
 {
     text-align: center;
+}
+
+label[for="textarea_notas"] .tooltip
+{
+    margin-right: 10px;
+}
+
+label[for="textarea_notas"] span.optional_field_indicator
+{
+    align-self: center;
+}
+
+/*----------------------------------------------------------------*/
+
+/* ORDERS */
+
+.order_show, .orders_list
+{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px grey;
+}
+
+.orders_item, .orders_total
+{
+    padding: 15px;
+}
+
+.orders_item
+{
+    border-bottom: 2px solid black;
+}
+
+.order_number
+{
+    text-align: center;
+}
+
+.order_number strong
+{
+    font-size: 16px;
+}
+
+.orders_total
+{
+    text-align: end;
+}
+
+.order_show > div
+{
+    padding: 15px;
+}
+
+.order_show_item
+{
+    border-top: 2px solid black;
+}
+
+.order_show_stamp_image
+{
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
 }
 
 @media (max-width: 1000px)
@@ -1174,7 +1277,6 @@ button
     .cart_item_image
     {
         align-self: center;
-
     }
 
     .cart_item_image img
@@ -1192,9 +1294,32 @@ button
         margin: 5px;
     }
 
-    #cart_clear button
+    #cart_buttons
+    {
+        flex-direction: column;
+        max-width: 280px;
+    }
+
+    #cart_clear, #cart_confirm
+    {
+        margin: 15px 0px 0px 0px;
+    }
+
+    #cart_clear button, #cart_confirm button
     {
         width: 100%;
+    }
+
+    #cart_confirm > div label
+    {
+        margin-bottom: 5px;
+    }
+
+    #cart_confirm > div textarea
+    {
+        min-width: 280px;
+        max-width: 280px;
+        min-height: 18px;
     }
 }
 

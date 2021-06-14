@@ -37,6 +37,6 @@ class Cliente extends Model
 
     public function encomendas()
     {
-        return $this->hasMany(Encomenda::class)->withTrashed();
+        return $this->hasMany(Encomenda::class);
     }
 }

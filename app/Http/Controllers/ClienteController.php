@@ -110,7 +110,14 @@ class ClienteController extends Controller
             }
 
             $cliente->user->fill($validated);
-            $cliente->update($validated);
+            $cliente->fill($validated);
+
+            if($request->tipo_pagamento == null)
+            {
+                $cliente->ref_pagamento = null;
+            }
+
+            $cliente->update();
 
             if($request->hasFile('photo') != null)
             {
