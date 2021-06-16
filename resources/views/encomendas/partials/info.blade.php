@@ -15,7 +15,7 @@
     @endswitch
 </p>
 <p><strong>Date: </strong>{{ $order->data }}</p>
-<p><strong>Notes: </strong>{{ $order->notas }}</p>
+<p><strong>Notes: </strong>{{ ($order->notas == null || empty($order->notas)) ? "----" : $order->notas }}</p>
 <p><strong>NIF: </strong>{{ $order->nif }}</p>
 <p><strong>Address: </strong>{{ $order->endereco }}</p>
 <p><strong>Payment Type: </strong>{{ $order->tipo_pagamento }}</p>

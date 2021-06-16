@@ -18,12 +18,7 @@
                     <img src="{{ route('estampasproprias.image', ['path' => $item->stamp_photo, 'estampa' => App\Models\Estampa::withTrashed()->find($item->estampa_id)]) }}" loading="lazy" alt="No stamp logo!">
                 @endif
                 </div>
-                <p><strong>Stamp: </strong>{{ $item->estampa_id }}</p>
-                <p><strong>Colour: </strong>{{ $item->cor_codigo }}</p>
-                <p><strong>Size: </strong>{{ $item->tamanho }}</p>
-                <p><strong>Quantity: </strong>{{ $item->quantidade }}</p>
-                <p><strong>Price: </strong>{{ $item->preco_un }} €</p>
-                <p><strong>Subtotal: </strong>{{ $item->subtotal }} €</p>
+                @include('encomendas.partials.info-item')
             </div>
         @endforeach
     </div>

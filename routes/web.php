@@ -139,6 +139,8 @@ Route::middleware(['auth', 'bloqueado', 'verified'])->group(function()
         Route::put('{encomenda}/updateF',               [EncomendaController::class, 'update'])     ->name('updateF')       ->middleware('can:updateF,App\Models\Encomenda');
 
         Route::put('{encomenda}/updateA',               [EncomendaController::class, 'update'])     ->name('updateA')       ->middleware('can:updateA,App\Models\Encomenda');
+
+        Route::get('{encomenda}/pdf',                   [EncomendaController::class, 'pdf'])        ->name('pdf');
     });
 
     Route::get('storage/estampas_privadas/{estampa}/{path}',      [EstampaController::class, 'image'])  ->name('estampasproprias.image')  ->middleware('can:viewImage,estampa');

@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Carbon\Carbon;
-use App\Models\Encomenda;
-use App\Models\Estampa;
+use App\Models\User;
 use App\Models\Tshirt;
+use App\Models\Estampa;
+use App\Mail\OrderClosed;
+use App\Models\Encomenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\OrderCreated;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\OrderStatusChanged;
 
 class EncomendaController extends Controller
 {
@@ -161,6 +166,8 @@ class EncomendaController extends Controller
             //clear cart
             session()->forget('cart');
 
+            User::find($encomenda->cliente_id)->notify(new OrderCreated($encomenda->id));
+
             DB::commit();
 
             return back()
@@ -188,6 +195,7 @@ class EncomendaController extends Controller
                     if($encomenda->estado == 'pendente')
                     {
                         $encomenda->update(['estado' => $request->estado]);
+                        User::find($encomenda->cliente_id)->notify(new OrderStatusChanged($encomenda->estado, $encomenda->id));
                         break;
                     }
                     throw new Exception();
@@ -196,6 +204,7 @@ class EncomendaController extends Controller
                     if($encomenda->estado == 'paga')
                     {
                         $encomenda->update(['estado' => $request->estado]);
+                        Mail::to(User::find($encomenda->cliente_id)->first())->queue(new OrderClosed($encomenda, $encomenda->tshirts));
                         break;
                     }
                     throw new Exception();
@@ -204,6 +213,7 @@ class EncomendaController extends Controller
                     if($encomenda->estado == 'pendente' || $encomenda->estado == 'paga')
                     {
                         $encomenda->update(['estado' => $request->estado]);
+                        User::find($encomenda->cliente_id)->notify(new OrderStatusChanged($encomenda->estado, $encomenda->id));
                         break;
                     }
                     throw new Exception();

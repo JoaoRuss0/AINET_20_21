@@ -13,16 +13,16 @@
 - Change account password ✓
 - Confirm shopping cart/purchase and create orders ✓
 - Consult order history (including **PDF** invoice) ✓ (not invoice)
-- Manage own T-shirt stamps x
-- Receive an email when an order is: x
-  - Created ("**Pending**")
-  - Canceled ("**Canceled**")
+- Manage own T-shirt stamps ✓
+- Receive an email when an order is:
+  - Created ("**Pending**") ✓
+  - Canceled ("**Canceled**") ✓
   - Shipped ("**Closed**")
     - Invoice should be sent to the client
 
 ## Workers
 
-- Change account password
+- Change account password x
 - Manage **Orders** ("**Pending**" and "**Paid**"): ✓
   - Consult
   - See details
