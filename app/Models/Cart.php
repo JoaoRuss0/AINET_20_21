@@ -33,7 +33,16 @@ class Cart
 
         $precos = Preco::first();
         $stamp = Estampa::find($item['stamp_id']);
-        $preco_un = ($item['quantity'] >= $precos->quantidade_desconto) ?  $precos->preco_un_catalogo_desconto : $precos->preco_un_catalogo;
+        $cliente_id = $stamp->cliente_id;
+
+        if($cliente_id == null)
+        {
+            $preco_un = ($item['quantity'] >= $precos->quantidade_desconto) ?  $precos->preco_un_catalogo_desconto : $precos->preco_un_catalogo;
+        }
+        else
+        {
+            $preco_un = ($item['quantity'] >= $precos->quantidade_desconto) ?  $precos->preco_un_proprio_desconto : $precos->preco_un_proprio;
+        }
 
         // Item is not in the cart or cart is empty
         $this->items[$id] =
@@ -47,6 +56,7 @@ class Cart
             'colour_name' => Cor::find($item['colour_code'])->nome,
             'stamp_name' => $stamp->nome,
             'stamp_photo' => $stamp->imagem_url,
+            'cliente_id' => $cliente_id,
         ];
 
         $this->total_price += $this->items[$id]['subtotal'];
@@ -61,21 +71,31 @@ class Cart
             $precos = Preco::first();
 
             // Item is present, increase its quantity by 1
-            $this->items[$id]['qty'] += $quantity ;
+            $this->items[$id]['quantidade'] += $quantity ;
 
             // If item's new quantity is superior/equal to quantity needed for discount
-            if($this->items[$id]['qty'] >= $precos->quantidade_desconto)
+            if($this->items[$id]['quantidade'] >= $precos->quantidade_desconto)
             {
+                if($this->items[$id]['cliente_id'] == null)
+                {
+                    $preco_un = $precos->preco_un_catalogo_desconto;
+                }
+                else
+                {
+                    $preco_un = $precos->preco_un_proprio_desconto;
+                }
+
                 // Subtract old subtotal from total price and add new discounted price
                 $this->total_price -= $this->items[$id]['subtotal'];
-                $this->items[$id]['subtotal'] = $this->items[$id]['qty'] * $precos->preco_un_catalogo_desconto;
+                $this->items[$id]['subtotal'] = $this->items[$id]['quantidade'] * $preco_un;
                 $this->total_price += $this->items[$id]['subtotal'];
+                $this->items[$id]['preco_un'] = $preco_un;
             }
             else
             {
                 // Simply add item's price if item's quantity is not enough for the discount to be applied
-                $this->items[$id]['subtotal'] += $quantity * $precos->preco_un_catalogo;
-                $this->total_price += $quantity * $precos->preco_un_catalogo;
+                $this->items[$id]['subtotal'] += $quantity * $this->items[$id]['preco_un'];
+                $this->total_price += $quantity * $this->items[$id]['preco_un'];
             }
         }
     }
@@ -86,7 +106,7 @@ class Cart
         if($this->items && array_key_exists($id, $this->items))
         {
 
-            if($this->items[$id]['qty'] - 1 == 0)
+            if($this->items[$id]['quantidade'] - 1 == 0)
             {
                 $this->remove($id);
                 return;
@@ -94,19 +114,29 @@ class Cart
 
             $precos = Preco::first();
             $this->total_qty--;
-            $this->items[$id]['qty'] -= 1;
+            $this->items[$id]['quantidade'] -= 1;
 
-            // If item's new quantity is superior/equal to quantity needed for discount
-            if($this->items[$id]['qty'] >= $precos->quantidade_desconto)
+            // If item's new quantity is still superior/equal to quantity needed for discount
+            if($this->items[$id]['quantidade'] >= $precos->quantidade_desconto)
             {
-                $this->total_price -= $precos->preco_un_catalogo_desconto;
-                $this->items[$id]['subtotal'] -= $precos->preco_un_catalogo_desconto;
+                $this->total_price -= $this->items[$id]['preco_un'];
+                $this->items[$id]['subtotal'] -= $this->items[$id]['preco_un'];
             }
             else
             {
+                if($this->items[$id]['cliente_id'] == null)
+                {
+                    $preco_un = $precos->preco_un_catalogo;
+                }
+                else
+                {
+                    $preco_un = $precos->preco_un_proprio;
+                }
+
                 $this->total_price -= $this->items[$id]['subtotal'];
-                $this->items[$id]['subtotal'] = $this->items[$id]['qty'] * $precos->preco_un_catalogo;
+                $this->items[$id]['subtotal'] = $this->items[$id]['quantidade'] * $preco_un;
                 $this->total_price += $this->items[$id]['subtotal'];
+                $this->items[$id]['preco_un'] = $preco_un;
             }
         }
     }
@@ -117,7 +147,7 @@ class Cart
         if($this->items && array_key_exists($id, $this->items))
         {
             $this->total_price -= $this->items[$id]['subtotal'];
-            $this->total_qty -= $this->items[$id]['qty'];
+            $this->total_qty -= $this->items[$id]['quantidade'];
 
             unset($this->items[$id]);
         }

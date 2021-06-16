@@ -12,8 +12,8 @@
         @csrf
         <div class="table_form">
             @include('estampas.partials.create-edit')
-            @include('estampas.partials.create-edit-admin')
             @include('estampas.partials.create-photo')
+            <input type="hidden" name="cliente_id" value="{{ Auth::user()->cliente->id }}">
             <div>
                 <label></label>
                 <button type="submit" class="button_green">Create</button>
@@ -21,5 +21,4 @@
         </div>
     </form>
 </div>
-
 @endsection

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div id="cart">
+<div id="orders">
     <h1 class="title">Orders</h1>
 
     @include('layout.partials.return-message')

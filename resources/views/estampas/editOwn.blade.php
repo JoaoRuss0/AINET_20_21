@@ -13,8 +13,8 @@
         @method('PUT')
         <div class="table_form">
             @include('estampas.partials.create-edit')
-            @include('estampas.partials.create-edit-admin')
             @include('estampas.partials.edit-photo')
+            <input type="hidden" name="cliente_id" value="{{ Auth::user()->cliente->id }}">
             <div>
                 <label></label>
                 <button type="submit" class="button_blue">Update</button>

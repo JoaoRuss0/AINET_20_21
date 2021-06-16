@@ -61,6 +61,12 @@ Route::middleware(['auth', 'bloqueado', 'verified'])->group(function()
 
     Route::name('estampas.')->prefix('estampas')->group(function()
     {
+        Route::get('/',                     [EstampaController::class, 'index'])        ->name('index');
+
+        Route::get('{estampa}/show',        [EstampaController::class, 'show'])         ->name('show')          ->middleware('can:view,estampa');
+
+        Route::get('filter',                [EstampaController::class, 'filter'])       ->name('filter');
+
         Route::get('create',                [EstampaController::class, 'create'])       ->name('create')        ->middleware('can:create,App\Models\Estampa');
 
         Route::post('/',                    [EstampaController::class, 'store'])        ->name('store')         ->middleware('can:create,App\Models\Estampa');
@@ -70,6 +76,15 @@ Route::middleware(['auth', 'bloqueado', 'verified'])->group(function()
         Route::put('{estampa}',             [EstampaController::class, 'update'])       ->name('update')        ->middleware('can:update,estampa');
 
         Route::delete('{estampa}',          [EstampaController::class, 'destroy'])      ->name('destroy')       ->middleware('can:delete,estampa');
+    });
+
+    Route::name('estampasproprias.')->prefix('estampasproprias')->group(function()
+    {
+        Route::get('/',                     [EstampaController::class, 'indexOwn'])     ->name('indexOwn')      ->middleware('can:viewOwn,App\Models\Estampa');;
+
+        Route::get('create',                [EstampaController::class, 'createOwn'])    ->name('create')        ->middleware('can:create,App\Models\Estampa');
+
+        Route::get('{estampa}/edit',        [EstampaController::class, 'editOwn'])      ->name('edit')          ->middleware('can:update,estampa');
     });
 
     Route::name('categorias.')->prefix('categorias')->group(function()
@@ -101,15 +116,6 @@ Route::middleware(['auth', 'bloqueado', 'verified'])->group(function()
         Route::put('{preco}',               [PrecoController::class, 'update'])         ->name('update')        ->middleware('can:update,preco');
     });
 
-    Route::name('estampas.')->prefix('estampas')->group(function()
-    {
-        Route::get('/',                     [EstampaController::class, 'index'])        ->name('index');
-
-        Route::get('{estampa}/show',        [EstampaController::class, 'show'])         ->name('show');
-
-        Route::get('filter',                [EstampaController::class, 'filter'])       ->name('filter');
-    });
-
     Route::name('precos.')->prefix('precos')->group(function()
     {
         Route::get('/',                     [PrecoController::class, 'index'])          ->name('index');
@@ -134,24 +140,26 @@ Route::middleware(['auth', 'bloqueado', 'verified'])->group(function()
 
         Route::put('{encomenda}/updateA',               [EncomendaController::class, 'update'])     ->name('updateA')       ->middleware('can:updateA,App\Models\Encomenda');
     });
+
+    Route::get('storage/estampas_privadas/{estampa}/{path}',      [EstampaController::class, 'image'])  ->name('estampasproprias.image')  ->middleware('can:viewImage,estampa');
 });
 
 Route::middleware(['guest'])->group(function()
 {
     Route::name('clientes.')->prefix('clientes')->group(function()
     {
-        Route::get('create',                [ClienteController::class, 'create'])       ->name('create');
+        Route::get('create',                [ClienteController::class, 'create'])                   ->name('create');
 
-        Route::post('/',                    [ClienteController::class, 'store'])        ->name('store');
+        Route::post('/',                    [ClienteController::class, 'store'])                    ->name('store');
     });
 
     Route::name('estampas.guest.')->prefix('estampas/guest')->group(function()
     {
-        Route::get('/',                     [EstampaController::class, 'index'])             ->name('index');
+        Route::get('/',                     [EstampaController::class, 'index'])                    ->name('index');
 
-        Route::get('{estampa}/show',        [EstampaController::class, 'show'])         ->name('show');
+        Route::get('{estampa}/show',        [EstampaController::class, 'show'])                     ->name('show')          ->middleware('can:view,estampa');
 
-        Route::get('filter',                [EstampaController::class, 'filter'])       ->name('filter');
+        Route::get('filter',                [EstampaController::class, 'filter'])                   ->name('filter');
     });
 
     Route::name('precos.')->prefix('precos')->group(function()
@@ -168,7 +176,6 @@ Route::middleware(['guest'])->group(function()
 
 Route::name('cart.')->prefix('cart')->group(function()
 {
-
     Route::get('{estampa}/add',             [CartController::class, 'addView'])         ->name('add')           ->middleware('can:update,App\Models\Cart');
 
     Route::post('/',                        [CartController::class, 'addToCart'])       ->name('store')         ->middleware('can:update,App\Models\Cart');

@@ -15,7 +15,11 @@
             <div class="cart_item cart_item_border">
 
                 <div class="cart_item_image">
+                @if($item['cliente_id'] == null)
                     <img src="{{ asset("storage/estampas/" . $item['stamp_photo']) }}" alt="No stamp image" loading="lazy">
+                @else
+                    <img src="{{ route('estampasproprias.image', ['path' => $item['stamp_photo'], 'estampa' => App\Models\Estampa::find($item['estampa_id'])]) }}" loading="lazy" alt="No stamp logo!">
+                @endif
                 </div>
 
                 <div>

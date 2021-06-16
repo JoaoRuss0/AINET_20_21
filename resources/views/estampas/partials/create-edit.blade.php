@@ -17,24 +17,6 @@
 @enderror
 
 <div>
-    <label for="stamp_category">Category</label>
-    <select type="text" name="categoria_id" id="stamp_category" required>
-    @foreach ($categories as $category)
-        <option value="{{$category->id}}" {{old('categoria_id', $stamp->categoria_id ?? '') == $category->id ? 'selected' : ''}}>{{$category->nome}}</option>
-    @endforeach
-    </select>
-</div>
-
-@error('bloqueado')
-    @foreach ($errors->get('bloqueado') as $message)
-        <div class="form_error_message">
-            <label></label>
-            <p><strong>{{$message}}</strong></p>
-        </div>
-    @endforeach
-@enderror
-
-<div>
     <label for="stamp_description">Description
         <span class="optional_field_indicator">- Optional</span>
     </label>

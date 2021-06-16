@@ -8,9 +8,11 @@
     @include('layout.partials.return-message')
 
 @can('create', App\Models\Estampa::class)
-    <div class="add_stamp_div">
-        <a class="href_button button_green" href="{{ route('estampas.create') }}" >Add Stamp</a>
-    </div>
+    @if(Auth::user()->tipo == 'A')
+        <div class="add_stamp_div">
+            <a class="href_button button_green" href="{{ route('estampas.create') }}" >Add Stamp</a>
+        </div>
+    @endif
 @endcan
 
     <div class="filter">
@@ -100,11 +102,14 @@
             </p>
 
             <div class="stamp_buttons">
-            @auth
-                <a href="{{ route('estampas.show', ['estampa' => $stamp->id]) }}" class="href_button button_black">View</a>
-            @else
-                <a href="{{ route('estampas.guest.show', ['estampa' => $stamp->id]) }}" class="href_button button_black">View</a>
-            @endauth
+            @can('view', $stamp)
+                @auth
+                    <a href="{{ route('estampas.show', ['estampa' => $stamp->id]) }}" class="href_button button_black">View</a>
+                @else
+                    <a href="{{ route('estampas.guest.show', ['estampa' => $stamp->id]) }}" class="href_button button_black">View</a>
+                @endauth
+            @endcan
+
             @can(['update', 'delete'], $stamp)
                 <a href="{{ route('estampas.edit', ['estampa' => $stamp->id]) }}" class="href_button button_blue">Edit</a>
                 <form action="{{ route('estampas.destroy', ['estampa' => $stamp->id]) }}" method="POST">

@@ -104,7 +104,9 @@ class EncomendaController extends Controller
 
         foreach ($items as $item)
         {
-            $item->stamp_photo = Estampa::withTrashed()->find($item->estampa_id)->imagem_url;
+            $stamp = Estampa::withTrashed()->find($item->estampa_id);
+            $item->stamp_photo = $stamp->imagem_url;
+            $item->cliente_id = $stamp->cliente_id;
         }
 
         return view('encomendas.show')

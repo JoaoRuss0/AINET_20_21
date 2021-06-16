@@ -9,7 +9,11 @@
 
     <div>
         <div class="stamp_profile_img">
-            <img src="{{ asset("storage/estampas/" . $stamp->imagem_url) }}" loading="lazy" alt="Stamp image.">
+            @if($stamp->cliente_id == null)
+                <img src="{{ asset("storage/estampas/" . $stamp->imagem_url) }}" loading="lazy" alt="Stamp image.">
+            @else
+                <img src="{{ route('estampasproprias.image', ['path' => "$stamp->imagem_url", 'estampa' => $stamp]) }}" loading="lazy" alt="No stamp logo!">
+            @endif
         </div>
 
         <form action="{{ route('cart.store') }}" method="POST">

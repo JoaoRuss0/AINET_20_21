@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EstampaStoreRequest extends FormRequest
@@ -24,8 +26,11 @@ class EstampaStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'cliente_id' => 'nullable',
-            'categoria_id' => 'required|exists:categorias,id',
+            'cliente_id' => [
+                Rule::requiredIf(Auth::user()->tipo == 'C'),
+                'in:' . Auth::user()->id,
+            ],
+            'categoria_id' => 'required_without:cliente_id|exists:categorias,id',
             'nome' => 'required|regex:/^[a-zA-ZÀ-ÿ 0-9]{1,255}$/',
             'descricao' => 'nullable',
             'photo' => 'required|image|max:8192',

@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Estampa;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\EstampaStoreRequest;
 use App\Http\Requests\EstampaUpdateRequest;
@@ -14,13 +15,28 @@ class EstampaController extends Controller
 {
     public function index()
     {
+        $estampas = Estampa::where('cliente_id', NULL)
+        ->orderBy('id')
+        ->paginate(30)
+        ->onEachSide(2);
+
         return view('estampas.index')
             ->with('title',"Catalog")
             ->with('categories', Categoria::all()->sortBy('nome'))
-            ->with('stamps', Estampa::where('cliente_id', NULL)
-                ->orderBy('id')
-                ->paginate(30)
-                ->onEachSide(2));
+            ->with('stamps', $estampas);
+    }
+
+    public function indexOwn()
+    {
+        $estampas = Estampa::where('cliente_id', Auth::user()->id)
+        ->orderBy('nome')
+        ->paginate(30)
+        ->onEachSide(2);
+
+        return view('estampas.indexOwn')
+            ->with('title',"My Stamps")
+            ->with('categories', Categoria::all()->sortBy('nome'))
+            ->with('stamps', $estampas);
     }
 
     public function show(Estampa $estampa)
@@ -28,13 +44,14 @@ class EstampaController extends Controller
         return view('estampas.show')
             ->with('title',"Estampa $estampa->id")
             ->with('stamp', $estampa)
-            ->with('category', $estampa->categoria->nome);
+            ->with('category', ($estampa->categoria) ? $estampa->categoria->nome : "No category");
     }
 
     public function filter(Request $request)
     {
         $stamp_querry = Estampa::query();
         $stamp_querry = $stamp_querry->where('cliente_id', NULL);
+
         $last_filter = [];
         $NO_PARAMETERS = TRUE;
 
@@ -92,6 +109,12 @@ class EstampaController extends Controller
             ->with('categories', Categoria::all()->sortBy('nome'));
     }
 
+    public function createOwn()
+    {
+        return view('estampas.createOwn')
+            ->with('title',"Create Stamp");
+    }
+
     public function store(EstampaStoreRequest $request)
     {
         try
@@ -103,16 +126,22 @@ class EstampaController extends Controller
 
             if($request->hasFile('photo') != null)
             {
-                $photo_path = $request->file('photo')->store("public/estampas");
+                if(Auth::user()->tipo == 'C')
+                {
+                    $photo_path = $request->file('photo')->store("estampas_privadas/");
+                }
+                else
+                {
+                    $photo_path = $request->file('photo')->store("public/estampas");
+                }
                 $estampa->imagem_url = basename($photo_path);
             }
 
             $estampa->save();
 
-            return redirect()->route('estampas.index')
+            return redirect()->route((Auth::user()->tipo == 'C') ? 'estampasproprias.indexOwn' : 'estampas.index')
                 ->with('message', "Stamp successfully created!")
                 ->with('message_type', "message_success");
-
         }
         catch(Exception $e)
         {
@@ -131,6 +160,13 @@ class EstampaController extends Controller
             ->with('stamp', $estampa);
     }
 
+    public function editOwn(Estampa $estampa)
+    {
+        return view('estampas.editOwn')
+            ->with('title', "Edit Stamp")
+            ->with('stamp', $estampa);
+    }
+
     public function update(EstampaUpdateRequest $request, Estampa $estampa)
     {
         try
@@ -140,14 +176,22 @@ class EstampaController extends Controller
 
             if($request->hasFile('photo') != null)
             {
-                Storage::delete("public/estampas/" . $estampa->imagem_url);
-                $photo_path = $request->file('photo')->store("public/estampas");
+                if(Auth::user()->tipo == 'C')
+                {
+                    Storage::delete("estampas_privadas/" . $estampa->imagem_url);
+                    $photo_path = $request->file('photo')->store("estampas_privadas/");
+                }
+                else
+                {
+                    Storage::delete("public/estampas/" . $estampa->imagem_url);
+                    $photo_path = $request->file('photo')->store("public/estampas");
+                }
                 $estampa->imagem_url = basename($photo_path);
             }
 
             $estampa->update();
 
-            return back()
+            return redirect()->route((Auth::user()->tipo == 'C') ? 'estampasproprias.indexOwn' : 'estampas.index')
                 ->with('message', "Stamp successfully updated!")
                 ->with('message_type', "message_success");
         }
@@ -176,6 +220,14 @@ class EstampaController extends Controller
             return back()
                 ->with('message', "Failed to delete stamp #$old_id.")
                 ->with('message_type', "message_error");
+        }
+    }
+
+    public function image(Estampa $estampa, $path)
+    {
+        if (Storage::exists("estampas_privadas/" . $path))
+        {
+            return response()->file(storage_path("app/estampas_privadas/" . $path));
         }
     }
 }

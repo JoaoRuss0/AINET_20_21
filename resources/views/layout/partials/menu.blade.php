@@ -76,6 +76,12 @@
                 || Route::currentRouteName() == "encomendas.show") class="menu_selected" @endif
             >Orders</a>
         @endauth
+
+        @can('viewOwn', App\Models\Estampa::class)
+            <a href="{{ route("estampasproprias.indexOwn") }}"
+            @if (Route::currentRouteName() == "estampasproprias.indexOwn") class="menu_selected" @endif
+            >My Stamps</a>
+        @endcan
     </div>
 
     <div id="menu_items_right">
