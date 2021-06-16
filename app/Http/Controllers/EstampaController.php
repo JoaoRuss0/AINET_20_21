@@ -17,7 +17,10 @@ class EstampaController extends Controller
         return view('estampas.index')
             ->with('title',"Catalog")
             ->with('categories', Categoria::all()->sortBy('nome'))
-            ->with('stamps', Estampa::where('cliente_id', NULL)->get());
+            ->with('stamps', Estampa::where('cliente_id', NULL)
+                ->orderBy('id')
+                ->paginate(30)
+                ->onEachSide(2));
     }
 
     public function show(Estampa $estampa)
@@ -58,21 +61,28 @@ class EstampaController extends Controller
 
         if(!$NO_PARAMETERS)
         {
-            $query_result = $stamp_querry->get();
+            $query_result = $stamp_querry
+                ->orderBy('id')
+                ->paginate(30)
+                ->onEachSide(2)
+                ->withQueryString();
             $last_filter['querry_count'] = $query_result->count();
 
             return view('estampas.index')
                 ->with('title',"Catalog")
                 ->with('categories', Categoria::all()->sortBy('nome'))
-                ->with('stamps', $query_result)
-                ->with('last_filter', $last_filter);
+                ->with('last_filter', $last_filter)
+                ->with('stamps', $query_result);
         }
 
         return view('estampas.index')
             ->with('title',"Catalog")
             ->with('categories', Categoria::all()->sortBy('nome'))
-            ->with('stamps', Estampa::where('cliente_id', NULL)->get())
-            ->with('last_filter', $last_filter);
+            ->with('last_filter', $last_filter)
+            ->with('stamps', Estampa::where('cliente_id', NULL)
+                ->orderBy('id')
+                ->paginate(30)
+                ->onEachSide(2));
     }
 
     public function create()

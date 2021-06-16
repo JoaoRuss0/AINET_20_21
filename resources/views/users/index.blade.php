@@ -150,6 +150,7 @@
         </div>
     @endforeach
     </div>
+    {{ $users->links() }}
 </div>
 
 @endsection

@@ -17,10 +17,10 @@ class UserController extends Controller
     {
         return view('users.index')
             ->with('title',"Users")
-            ->with('users', User::all()
-                ->sortBy('name')
-                ->sortBy('bloqueado')
-                ->sortBy('tipo'));
+            ->with('users', User::orderBy('tipo')
+                ->orderBy('bloqueado')
+                ->orderBy('name')
+                ->paginate(20)->onEachSide(2));
     }
 
     public function show(User $user)
@@ -59,25 +59,30 @@ class UserController extends Controller
 
         if(!$NO_PARAMETERS)
         {
-            $query_result = $user_querry->get();
+            $query_result = $user_querry
+                ->orderBy('tipo')
+                ->orderBy('bloqueado')
+                ->orderBy('name')
+                ->paginate(20)
+                ->onEachSide(2)
+                ->withQueryString();
+
             $last_filter['querry_count'] = $query_result->count();
 
             return view('users.index')
             ->with('title', "Users")
             ->with('last_filter', $last_filter)
-            ->with('users', $query_result
-                ->sortBy('name')
-                ->sortBy('bloqueado')
-                ->sortBy('tipo'));
+            ->with('users', $query_result);
         }
 
         return view('users.index')
             ->with('title', "Users")
             ->with('last_filter', $last_filter)
-            ->with('users', User::all()
-                ->sortBy('name')
-                ->sortBy('bloqueado')
-                ->sortBy('tipo'));
+            ->with('users', User::orderBy('tipo')
+                ->orderBy('bloqueado')
+                ->orderBy('name')
+                ->paginate(20)
+                ->onEachSide(2));
     }
 
     public function create()

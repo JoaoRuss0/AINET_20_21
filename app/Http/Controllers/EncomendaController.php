@@ -16,24 +16,86 @@ class EncomendaController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $clientes = null;
+        $datas = null;
 
         switch ($user->tipo)
         {
             case 'A':
-                $orders = Encomenda::all()->sortByDesc('id');
+                $orders = Encomenda::orderByDesc('id')->paginate(10)->onEachSide(1);
+                $clientes = Encomenda::all('cliente_id')->groupBy(['cliente_id'])->keys();
+                $datas = Encomenda::all('data')->groupBy(['data'])->keys();
                 break;
             case 'F':
-                $orders = Encomenda::where('estado', 'pendente')->orWhere('estado', 'pagas')->get();
+                $orders = Encomenda::where('estado', 'pendente')->orWhere('estado', 'paga')->orderByDesc('id')->paginate(10)->onEachSide(1);
                 break;
             case 'C':
-                $orders = $user->cliente->encomendas;
+                $orders = $user->cliente->encomendas()->orderByDesc('id')->paginate(10)->onEachSide(1);
                 break;
         }
 
         return view('encomendas.index')
             ->with('title', "Orders")
             ->with('orders', $orders)
-            ->with('orders_count', $orders->count());
+            ->with('clientes', $clientes)
+            ->with('datas', $datas);
+    }
+
+    public function filter(Request $request)
+    {
+        $encomenda_querry = Encomenda::query();
+        $last_filter = [];
+        $NO_PARAMETERS = TRUE;
+
+        if(!empty($request->cliente))
+        {
+            $encomenda_querry = $encomenda_querry->where('cliente_id', "$request->cliente");
+            $last_filter['cliente'] = $request['cliente'];
+            $NO_PARAMETERS = FALSE;
+        }
+
+        if(!empty($request->estado))
+        {
+            $encomenda_querry = $encomenda_querry->where('estado', "$request->estado");
+            $last_filter['estado'] = $request['estado'];
+            $NO_PARAMETERS = FALSE;
+        }
+
+        if(!empty($request->data))
+        {
+            $encomenda_querry = $encomenda_querry->where('data', $request->data);
+            $last_filter['data'] = $request['data'];
+            $NO_PARAMETERS = FALSE;
+        }
+
+        $clientes = Encomenda::all('cliente_id')->groupBy(['cliente_id'])->keys();
+        $datas = Encomenda::all('data')->groupBy(['data'])->keys();
+
+        if(!$NO_PARAMETERS)
+        {
+            $query_result = $encomenda_querry
+                ->orderByDesc('id')
+                ->paginate(10)
+                ->onEachSide(1)
+                ->withQueryString();
+            $last_filter['querry_count'] = $query_result->count();
+
+            return view('encomendas.index')
+            ->with('title', "Orders")
+            ->with('last_filter', $last_filter)
+            ->with('orders', $query_result)
+            ->with('clientes', $clientes)
+            ->with('datas', $datas);
+        }
+
+        $orders = Encomenda::orderByDesc('id')->paginate(10)->onEachSide(1);
+
+        return view('encomendas.index')
+            ->with('title', "Orders")
+            ->with('last_filter', $last_filter)
+            ->with('orders', $orders)
+            ->with('clientes', $clientes)
+            ->with('datas', $datas);
     }
 
     public function show(Encomenda $encomenda)
@@ -110,6 +172,51 @@ class EncomendaController extends Controller
             // WithInput() is used in case request goes through validators without a problem but fails to create user
             return back()->withInput()
                 ->with('message', "Error creating Order.")
+                ->with('message_type', "message_error");
+        }
+    }
+
+    public function update(Request $request, Encomenda $encomenda)
+    {
+        try
+        {
+            switch($request->estado)
+            {
+                case 'paga':
+                    if($encomenda->estado == 'pendente')
+                    {
+                        $encomenda->update(['estado' => $request->estado]);
+                        break;
+                    }
+                    throw new Exception();
+                    break;
+                case 'fechada':
+                    if($encomenda->estado == 'paga')
+                    {
+                        $encomenda->update(['estado' => $request->estado]);
+                        break;
+                    }
+                    throw new Exception();
+                    break;
+                case 'anulada':
+                    if($encomenda->estado == 'pendente' || $encomenda->estado == 'paga')
+                    {
+                        $encomenda->update(['estado' => $request->estado]);
+                        break;
+                    }
+                    throw new Exception();
+                    break;
+
+            }
+
+            return back()
+                ->with('message', "Order successfully updated!")
+                ->with('message_type', "message_success");
+        }
+        catch(Exception $e)
+        {
+            return back()
+                ->with('message', "Error updating order to '$request->estado'.")
                 ->with('message_type', "message_error");
         }
     }

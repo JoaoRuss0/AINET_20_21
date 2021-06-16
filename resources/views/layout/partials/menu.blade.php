@@ -69,10 +69,13 @@
             >Cart</a>
         @endcan
 
-        <a href="{{ route("encomendas.index") }}"
+        @auth
+            <a href="{{ route("encomendas.index") }}"
             @if (Route::currentRouteName() == "encomendas.index"
+                || Route::currentRouteName() == "encomendas.filter"
                 || Route::currentRouteName() == "encomendas.show") class="menu_selected" @endif
             >Orders</a>
+        @endauth
     </div>
 
     <div id="menu_items_right">

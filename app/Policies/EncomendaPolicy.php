@@ -20,8 +20,18 @@ class EncomendaPolicy
         return $user->id == $encomenda->cliente_id || $user->tipo == 'F' && ($encomenda->estado == 'paga' || $encomenda->estado == 'pendente') || $user->tipo == 'A';
     }
 
-    public function update(User $user, Encomenda $encomenda)
+    public function filter(User $user)
+    {
+        return $user->tipo == 'A';
+    }
+
+    public function updateF(User $user)
     {
         return $user->tipo != 'C';
+    }
+
+    public function updateA(User $user)
+    {
+        return $user->tipo == 'A';
     }
 }

@@ -120,5 +120,6 @@
         </div>
     @endforeach
     </div>
+    {{ $stamps->links() }}
 </div>
 @endsection
