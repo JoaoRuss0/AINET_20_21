@@ -17,8 +17,8 @@
 - Receive an email when an order is:
   - Created ("**Pending**") ✓
   - Canceled ("**Canceled**") ✓
-  - Shipped ("**Closed**")
-    - Invoice should be sent to the client
+  - Shipped ("**Closed**") ✓
+    - Invoice should be sent to the client (Invoice is sent but not as a pdf)
 
 ## Workers
 
