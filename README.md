@@ -26,56 +26,56 @@ This repository contains a multi-page web application project I developed for on
 
 ## Anonymous Users
 
-- Consult and filter the catalog ✓
-- Add, remove and alter shopping cart ✓
-- Register a user account ✓
+- Consult and filter the catalog
+- Add, remove and alter shopping cart
+- Register a user account
 
 ## Clients
 
-- Everything an ***Anonymous User*** can do (except register a new account) ✓
-- View and alter account information ✓
-- Change account password ✓
-- Confirm shopping cart/purchase and create orders ✓
-- Consult order history ✓
-- Manage own T-shirt stamps ✓
+- Everything an ***Anonymous User*** can do (except register a new account)
+- View and alter account information
+- Change account password
+- Confirm shopping cart/purchase and create orders
+- Consult order history
+- Manage own T-shirt stamps
 - Receive an email when an order is:
-  - Created ("**Pending**") ✓
-  - Canceled ("**Cancelled**") ✓
-  - Shipped ("**Closed**") ✓
+  - Created ("**Pending**")
+  - Canceled ("**Cancelled**")
+  - Shipped ("**Closed**")
     - Invoice should be sent to the client (Laravel Email Markdown)
 
 ## Workers
 
-- Manage **Orders** ("**Pending**" and "**Paid**"): ✓
+- Manage **Orders** ("**Pending**" and "**Paid**"):
   - Consult
   - See details
-- Change **Order's** state from: ✓
+- Change **Order's** state from:
   - "**Pending**" to "**Paid**"
   - "**Paid**" to "**Closed**"
 
 ## Administrators
 
-- View and alter account information ✓
-- Change account password ✓
-- Manage ***Worker*** and ***Administrator*** accounts: ✓
+- View and alter account information
+- Change account password
+- Manage ***Worker*** and ***Administrator*** accounts:
   - Consult
   - Filter
   - Create
   - Alter
   - Block
   - Remove
-- Manage ***Client*** accounts:  ✓
+- Manage ***Client*** accounts:
   - Filter
   - Block
   - Delete(Soft Deletes)
-- Manage **Orders** (independently of state): ✓
+- Manage **Orders** (independently of state):
   - Consult
   - Filter
   - See details
-- Declare **Orders** as: ✓
+- Declare **Orders** as:
   - "**Canceled**"
   - "**Paid**"
   - "**Closed**"
-- Manage **Categories** and the **Stamp Catalog** ✓
-- Set prices ✓
-- Manage color list ✓
+- Manage **Categories** and the **Stamp Catalog**
+- Set prices
+- Manage color list
