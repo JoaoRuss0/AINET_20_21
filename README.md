@@ -1,4 +1,4 @@
-# ***MagicShirts*** **-** T-Shirt Shop
+# ***MagicShirts***: Online T-Shirt Shop
 
 This repository contains a multi-page web application project I developed for one of my classes during my computer engineering degree.
 
